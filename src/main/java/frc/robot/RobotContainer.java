@@ -62,7 +62,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whenPressed(m_DashSpeed);
+    new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_DashSpeed);
   }
 
   /**
