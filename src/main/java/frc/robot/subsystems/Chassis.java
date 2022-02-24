@@ -53,6 +53,9 @@ public class Chassis extends SubsystemBase {
     RFMotor.setIdleMode(IdleMode.kBrake);
     RBMotor.setIdleMode(IdleMode.kBrake);
 
+    //Initialize input sections in Smartdashboard
+    SmartDashboard.putNumber("Motor 10 Velocity", testEncoder.getVelocity());
+    SmartDashboard.putNumber("Motor 11 Velocity", testEncoder_2.getVelocity());
       
     }
 
@@ -72,13 +75,9 @@ public class Chassis extends SubsystemBase {
     RBMotor.set(rSpeed);
   }
   public void setSpeeds() {
-    //Initialize input sections in Smartdashboard
-    SmartDashboard.putNumber("Motor 1 Velocity", testEncoder.getVelocity());
-    SmartDashboard.putNumber("Motor 2 Velocity", testEncoder_2.getVelocity());
-
     //Get values from Smartdashboard
-    double lSpeed = SmartDashboard.getNumber("Motor 1 Velocity", 0.0);
-    double rSpeed = SmartDashboard.getNumber("Motor 2 Velocity", 0.0);
+    double lSpeed = SmartDashboard.getNumber("Motor 10 Velocity", 0.0);
+    double rSpeed = SmartDashboard.getNumber("Motor 11 Velocity", 0.0);
 
     //Set Motor Speeds
     testController.set(lSpeed);
