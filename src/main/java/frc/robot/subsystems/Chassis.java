@@ -34,8 +34,8 @@ public class Chassis extends SubsystemBase {
 
   public Chassis() {
     //Initialize motors
-    testController = new CANSparkMax(driveConstants.SPEED_CONT10, MotorType.kBrushless);
-    testController_2 = new CANSparkMax(driveConstants.SPEED_CONT11, MotorType.kBrushless);
+    testController = new CANSparkMax(driveConstants.SPEED_CONT16, MotorType.kBrushless);
+    testController_2 = new CANSparkMax(driveConstants.SPEED_CONT17, MotorType.kBrushless);
     LFMotor = new CANSparkMax(driveConstants.SPEED_CONT12, MotorType.kBrushless);
     LBMotor = new CANSparkMax(driveConstants.SPEED_CONT13, MotorType.kBrushless);
     RFMotor = new CANSparkMax(driveConstants.SPEED_CONT14, MotorType.kBrushless);
@@ -54,8 +54,8 @@ public class Chassis extends SubsystemBase {
     RBMotor.setIdleMode(IdleMode.kBrake);
 
     //Initialize input sections in Smartdashboard
-    SmartDashboard.putNumber("Motor 10 Velocity", testEncoder.getVelocity());
-    SmartDashboard.putNumber("Motor 11 Velocity", testEncoder_2.getVelocity());
+    SmartDashboard.putNumber("Motor 16 Velocity", testEncoder.getVelocity());
+    SmartDashboard.putNumber("Motor 17 Velocity", testEncoder_2.getVelocity());
       
     }
 
@@ -76,16 +76,21 @@ public class Chassis extends SubsystemBase {
   }
   public void setSpeeds() {
     //Get values from Smartdashboard
-    double lSpeed = SmartDashboard.getNumber("Motor 10 Velocity", 0.0);
-    double rSpeed = SmartDashboard.getNumber("Motor 11 Velocity", 0.0);
+    double lSpeed = SmartDashboard.getNumber("Motor 17 Velocity", 0.0);
+    double rSpeed = SmartDashboard.getNumber("Motor 17 Velocity", 0.0);
 
     //Set Motor Speeds
-    testController.set(lSpeed);
+    testController.set(-lSpeed);
     testController_2.set(rSpeed);
 
     SmartDashboard.putNumber("Motor 1 Velocity", testEncoder.getVelocity());
     SmartDashboard.putNumber("Motor 2 Velocity", testEncoder_2.getVelocity());
+  }
 
+  public void setZero() {
+    //Set Motor Speeds
+    testController.set(0);
+    testController_2.set(0);
   }
   @Override
   public void periodic() {

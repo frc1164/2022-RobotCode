@@ -27,6 +27,8 @@ public final class Constants {
         public static final int SPEED_CONT13 = 13;
         public static final int SPEED_CONT14 = 14;
         public static final int SPEED_CONT15 = 15;
+        public static final int SPEED_CONT16 = 16;
+        public static final int SPEED_CONT17 = 17;
     }
 
     public static final class xBoxConstants {

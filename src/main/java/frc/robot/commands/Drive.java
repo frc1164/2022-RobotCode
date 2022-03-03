@@ -4,11 +4,7 @@
 
 package frc.robot.commands;
 
-import javax.xml.xpath.XPathVariableResolver;
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Chassis;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.xBoxConstants;
@@ -28,6 +24,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Get drive values from controller
     double forward = RobotContainer.m_OperatorController.getRawAxis(xBoxConstants.LY_AXIS);
     double turn = RobotContainer.m_OperatorController.getRawAxis(xBoxConstants.LX_AXIS);
 
