@@ -25,7 +25,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 //local imports
-import frc.robot.Constants.driveConstants;
+import frc.robot.Constants.motorConstants;
 
 public class Chassis extends SubsystemBase {
   private final CANSparkMax testController, testController_2, LFMotor, LBMotor, RFMotor, RBMotor;
@@ -34,12 +34,12 @@ public class Chassis extends SubsystemBase {
 
   public Chassis() {
     //Initialize motors
-    testController = new CANSparkMax(driveConstants.SPEED_CONT16, MotorType.kBrushless);
-    testController_2 = new CANSparkMax(driveConstants.SPEED_CONT17, MotorType.kBrushless);
-    LFMotor = new CANSparkMax(driveConstants.SPEED_CONT12, MotorType.kBrushless);
-    LBMotor = new CANSparkMax(driveConstants.SPEED_CONT13, MotorType.kBrushless);
-    RFMotor = new CANSparkMax(driveConstants.SPEED_CONT14, MotorType.kBrushless);
-    RBMotor = new CANSparkMax(driveConstants.SPEED_CONT15, MotorType.kBrushless);
+    testController = new CANSparkMax(motorConstants.SPEED_CONT16, MotorType.kBrushless);
+    testController_2 = new CANSparkMax(motorConstants.SPEED_CONT17, MotorType.kBrushless);
+    LFMotor = new CANSparkMax(motorConstants.SPEED_CONT12, MotorType.kBrushless);
+    LBMotor = new CANSparkMax(motorConstants.SPEED_CONT13, MotorType.kBrushless);
+    RFMotor = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
+    RBMotor = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
 
     //Initialize encoders
     testEncoder = testController.getEncoder();
@@ -54,8 +54,8 @@ public class Chassis extends SubsystemBase {
     RBMotor.setIdleMode(IdleMode.kBrake);
 
     //Initialize input sections in Smartdashboard
-    SmartDashboard.putNumber("Motor 16 Velocity", testEncoder.getVelocity());
-    SmartDashboard.putNumber("Motor 17 Velocity", testEncoder_2.getVelocity());
+    //SmartDashboard.putNumber("PlaceHolder (DO NOT USE)", testEncoder.getVelocity());
+    SmartDashboard.putNumber("Test Motor(s) Velocity", testEncoder_2.getVelocity());
       
     }
 
@@ -76,8 +76,8 @@ public class Chassis extends SubsystemBase {
   }
   public void setSpeeds() {
     //Get values from Smartdashboard
-    double lSpeed = SmartDashboard.getNumber("Motor 17 Velocity", 0.0);
-    double rSpeed = SmartDashboard.getNumber("Motor 17 Velocity", 0.0);
+    double lSpeed = SmartDashboard.getNumber("Test Motor(s) Velocity", 0.0);
+    double rSpeed = SmartDashboard.getNumber("Test Motor(s) Velocity", 0.0);
 
     //Set Motor Speeds
     testController.set(-lSpeed);

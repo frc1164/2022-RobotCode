@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.xBoxConstants;
+import frc.robot.Constants.driverConstants;
 
 public class Drive extends CommandBase {
   private final Chassis m_Chassis;
@@ -25,8 +25,8 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     //Get drive values from controller
-    double forward = RobotContainer.m_OperatorController.getRawAxis(xBoxConstants.LY_AXIS);
-    double turn = RobotContainer.m_OperatorController.getRawAxis(xBoxConstants.LX_AXIS);
+    double forward = RobotContainer.m_OperatorController.getRawAxis(driverConstants.Y_AXIS);
+    double turn = RobotContainer.m_OperatorController.getRawAxis(driverConstants.X_ROTATE);
 
     //Deadban
     turn = (Math.abs(turn) <= 0.1) ? 0 : turn;
