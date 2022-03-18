@@ -31,4 +31,9 @@ public class Shooter extends SubsystemBase {
   public void runIndex (double speed) {
     indexMot.set(speed);
   }
+
+  public void runShooter (double speed) {
+    shooterMot1.set(speed);
+    shooterMot2.set(motorConstants.IS_REVERSED * speed);
+  }
 }

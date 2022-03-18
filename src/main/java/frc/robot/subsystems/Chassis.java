@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 //PheonixTuner imports
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.fasterxml.jackson.databind.ser.std.CalendarSerializer;
 
 //WPILIB imports
@@ -68,8 +67,8 @@ public class Chassis extends SubsystemBase {
   }
 
   public void drive(double lSpeed, double rSpeed) {
-    LFMotor.set(-lSpeed);
-    LBMotor.set(-lSpeed);
+    LFMotor.set(motorConstants.IS_REVERSED * lSpeed);
+    LBMotor.set(motorConstants.IS_REVERSED * lSpeed);
 
     RFMotor.set(rSpeed);
     RBMotor.set(rSpeed);
@@ -80,7 +79,7 @@ public class Chassis extends SubsystemBase {
     double rSpeed = SmartDashboard.getNumber("Test Motor(s) Velocity", 0.0);
 
     //Set Motor Speeds
-    testController.set(-lSpeed);
+    testController.set(motorConstants.IS_REVERSED * lSpeed);
     testController_2.set(rSpeed);
 
     SmartDashboard.putNumber("Motor 1 Velocity", testEncoder.getVelocity());
