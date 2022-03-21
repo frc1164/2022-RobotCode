@@ -4,22 +4,34 @@
 
 package frc.robot.subsystems;
 
+//WPI imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //REV imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 //Robot imports
-import frc.robot.Constants;
 import frc.robot.Constants.motorConstants;
 
 public class Shooter extends SubsystemBase {
-  public CANSparkMax shooterMot1,shooterMot2, indexMot;
+  public CANSparkMax shootMot1,shootMot2, indexMot;
+  public RelativeEncoder shootEnc1, shootEnc2;
   public Shooter() {
-    shooterMot1 = new CANSparkMax(motorConstants.SPEED_CONT16, MotorType.kBrushless);
-    shooterMot2 = new CANSparkMax(motorConstants.SPEED_CONT17, MotorType.kBrushless);
+    //Shooter Motors
+    shootMot1 = new CANSparkMax(motorConstants.SPEED_CONT16, MotorType.kBrushless);
+    shootMot2 = new CANSparkMax(motorConstants.SPEED_CONT17, MotorType.kBrushless);
 
+    //Shooter Encoders
+    shootEnc1 = shootMot1.getEncoder();
+    shootEnc2 = shootMot2.getEncoder();
+
+    //Smartdashboard
+    SmartDashboard.putNumber("Shooter Motor Velocity Input", shootEnc1.getVelocity());
+
+    //Indexer Motor
     indexMot = new CANSparkMax(motorConstants.SPEED_CONT18, MotorType.kBrushless);
 
   }
@@ -32,8 +44,20 @@ public class Shooter extends SubsystemBase {
     indexMot.set(speed);
   }
 
-  public void runShooter (double speed) {
-    shooterMot1.set(speed);
-    shooterMot2.set(motorConstants.IS_REVERSED * speed);
+  public void runShooter () {
+    //Get values from Smartdashboard
+    double Speed = SmartDashboard.getNumber("Shooter Motor Velocity Input", 0.0);
+
+    //Set Motor Speeds
+    shootMot1.set(motorConstants.IS_REVERSED * Speed);
+    shootMot2.set(Speed);
+
+    SmartDashboard.putNumber("Motor 1 Velocity", shootEnc1.getVelocity());
+    SmartDashboard.putNumber("Motor 2 Velocity", shootEnc2.getVelocity());
+  }
+
+  public void stopShooter () {
+    shootMot1.set(0.0);
+    shootMot2.set(0.0);
   }
 }

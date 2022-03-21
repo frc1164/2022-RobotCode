@@ -4,18 +4,22 @@
 
 package frc.robot;
 
-import org.ejml.dense.block.MatrixOps_DDRB;
-
+//WPI imports
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.xBoxConstants;
-import frc.robot.commands.Drive;
-import frc.robot.commands.DashSpeed;
 
-import edu.wpi.first.wpilibj.XboxController;
+//Constants imports
+import frc.robot.Constants.xBoxConstants;
+
+//Commands imports
+import frc.robot.commands.Drive;
+import frc.robot.commands.Shoot;
+
+//Subsystems imports
+import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,25 +28,29 @@ import edu.wpi.first.wpilibj.XboxController;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  // Controller declares
   public static XboxController m_OperatorController;
 
+  //Commands declares
   private final Drive m_Drive;
-  private final DashSpeed m_DashSpeed;
+  private final Shoot m_Shoot;
+
+  //Subsystem declares
   private final Chassis m_Chassis;
+  private final Shooter m_Shooter;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings
-
+    //Subsystems init
     m_Chassis = new Chassis();
+    m_Shooter = new Shooter();
 
-    //Define Controllers
+    //Controllers init
     m_OperatorController = new XboxController(xBoxConstants.OPERATOR_PORT);
 
-    //Define Commands
+    //Commands init
     m_Drive = new Drive(m_Chassis);
-    m_DashSpeed = new DashSpeed(m_Chassis);
+    m_Shoot = new Shoot(m_Shooter);
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
@@ -57,7 +65,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_DashSpeed);
+    new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_Shoot);
   }
 
   /**
