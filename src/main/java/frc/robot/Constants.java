@@ -29,6 +29,7 @@ public final class Constants {
         public static final int SPEED_CONT15 = 15;
         public static final int SPEED_CONT16 = 16;
         public static final int SPEED_CONT17 = 17;
+        public static final int IS_INVERTED = -1;
     }
 
     public static final class xBoxConstants {
@@ -39,6 +40,7 @@ public final class Constants {
     }
 
     public static final class driverConstants{
+        public static final int DRIVER_PORT = 0;
         public static final int X_AXIS = 0;
         public static final int Y_AXIS = 1;
         public static final int Z_AXIS = 2;

@@ -4,20 +4,21 @@
 
 package frc.robot;
 
-import org.ejml.dense.block.MatrixOps_DDRB;
-
+//WPI imports
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.Joystick;
+
+//Robot imports
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.driverConstants;
 import frc.robot.Constants.xBoxConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DashSpeed;
-
-import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,6 +32,7 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   public static XboxController m_OperatorController;
+  public static Joystick m_DriverController;
 
   private final Drive m_Drive;
   private final DashSpeed m_DashSpeed;
@@ -44,6 +46,7 @@ public class RobotContainer {
 
     //Define Controllers
     m_OperatorController = new XboxController(xBoxConstants.OPERATOR_PORT);
+    m_DriverController = new Joystick(driverConstants.DRIVER_PORT);
 
     //Define Commands
     m_Drive = new Drive(m_Chassis);
