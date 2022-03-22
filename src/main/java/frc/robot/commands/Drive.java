@@ -12,6 +12,7 @@ import frc.robot.Constants.motorConstants;
 
 public class Drive extends CommandBase {
   private final Chassis m_Chassis;
+  double forward, turn;
   /** Creates a new Drive. */
   public Drive(Chassis m_Chassis) {
     this.m_Chassis = m_Chassis;
@@ -26,8 +27,8 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     //Get drive values from controller
-    double forward = RobotContainer.m_DriverController.getRawAxis(driverConstants.X_ROTATE);
-    double turn = motorConstants.IS_INVERTED * RobotContainer.m_DriverController.getRawAxis(driverConstants.Y_AXIS);
+    forward = RobotContainer.m_DriverController.getRawAxis(driverConstants.X_ROTATE);
+    turn = RobotContainer.m_DriverController.getRawAxis(driverConstants.Y_AXIS);
 
     //Deadban
     turn = (Math.abs(turn) <= 0.1) ? 0 : turn;
