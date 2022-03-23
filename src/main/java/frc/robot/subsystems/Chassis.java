@@ -76,8 +76,8 @@ public class Chassis extends SubsystemBase {
   }
   public void setSpeeds() {
     //Get values from Smartdashboard
-    double lSpeed = SmartDashboard.getNumber("Test Motor(s) Velocity", 0.0);
-    double rSpeed = SmartDashboard.getNumber("Test Motor(s) Velocity", 0.0);
+    double lSpeed = SmartDashboard.getNumber("Test Motor 1 Velocity", 0.0);
+    double rSpeed = SmartDashboard.getNumber("Test Motor 2 Velocity", 0.0);
 
     //Set Motor Speeds
     testController.set(-lSpeed);
