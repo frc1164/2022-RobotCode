@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 import frc.robot.RobotContainer;
@@ -25,8 +26,8 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     //Get drive values from controller
-    double forward = RobotContainer.m_OperatorController.getRawAxis(driverConstants.Y_AXIS);
-    double turn = RobotContainer.m_OperatorController.getRawAxis(driverConstants.X_ROTATE);
+    double forward = RobotContainer.m_DriverController.getRawAxis(driverConstants.Y_AXIS);
+    double turn = RobotContainer.m_DriverController.getRawAxis(driverConstants.X_ROTATE);
 
     //Deadban
     turn = (Math.abs(turn) <= 0.1) ? 0 : turn;
@@ -37,6 +38,8 @@ public class Drive extends CommandBase {
     double rightMSpeed = (forward + turn);
 
     //Command call
+    SmartDashboard.putNumber("Driver L speed", leftMSpeed);
+    SmartDashboard.putNumber("Driver R speed", rightMSpeed);
     m_Chassis.drive(leftMSpeed, rightMSpeed);
   }
 

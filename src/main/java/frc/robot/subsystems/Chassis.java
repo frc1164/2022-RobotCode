@@ -26,20 +26,32 @@ public class Chassis extends SubsystemBase {
     RFMotor = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
     RBMotor = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
 
+    
+    LFMotor.restoreFactoryDefaults();
+    LBMotor.restoreFactoryDefaults();
+    RFMotor.restoreFactoryDefaults();
+    RBMotor.restoreFactoryDefaults();
+    
+
     //Set brake
-    LFMotor.setIdleMode(IdleMode.kBrake);
-    LBMotor.setIdleMode(IdleMode.kBrake);
-    RFMotor.setIdleMode(IdleMode.kBrake);
-    RBMotor.setIdleMode(IdleMode.kBrake);
+    LFMotor.setIdleMode(IdleMode.kCoast);
+    LBMotor.setIdleMode(IdleMode.kCoast);
+    RFMotor.setIdleMode(IdleMode.kCoast);
+    RBMotor.setIdleMode(IdleMode.kCoast);
+
+    LFMotor.setInverted(motorConstants.LFMOT_INVERT);
+    LBMotor.setInverted(motorConstants.LBMOT_INVERT);
+    RFMotor.setInverted(motorConstants.RFMOT_INVERT);
+    RBMotor.setInverted(motorConstants.RBMOT_INVERT);
       
     }
 
   public void drive(double lSpeed, double rSpeed) {
-    LFMotor.set(motorConstants.IS_REVERSED * lSpeed);
-    LBMotor.set(motorConstants.IS_REVERSED * lSpeed);
+    LFMotor.set(lSpeed);
+    LBMotor.follow(LFMotor);
 
     RFMotor.set(rSpeed);
-    RBMotor.set(rSpeed);
+    RBMotor.follow(RFMotor);
   }
 
   @Override

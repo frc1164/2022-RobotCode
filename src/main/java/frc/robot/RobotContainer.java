@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Constants.driverConstants;
 //Constants imports
 import frc.robot.Constants.xBoxConstants;
 
@@ -30,6 +31,7 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
   // Controller declares
   public static XboxController m_OperatorController;
+  public static Joystick m_DriverController;
 
   //Commands declares
   private final Drive m_Drive;
@@ -47,6 +49,7 @@ public class RobotContainer {
 
     //Controllers init
     m_OperatorController = new XboxController(xBoxConstants.OPERATOR_PORT);
+    m_DriverController = new Joystick(driverConstants.DRIVER_PORT);
 
     //Commands init
     m_Drive = new Drive(m_Chassis);

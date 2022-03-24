@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 //Robot imports
 import frc.robot.Constants.motorConstants;
@@ -23,6 +24,11 @@ public class Shooter extends SubsystemBase {
     //Shooter Motors
     shootMot1 = new CANSparkMax(motorConstants.SPEED_CONT16, MotorType.kBrushless);
     shootMot2 = new CANSparkMax(motorConstants.SPEED_CONT17, MotorType.kBrushless);
+
+    shootMot1.setIdleMode(IdleMode.kCoast);
+    shootMot2.setIdleMode(IdleMode.kCoast);
+
+    shootMot1.setInverted(motorConstants.SHOOTMOT1_INVERT);
 
     //Shooter Encoders
     shootEnc1 = shootMot1.getEncoder();
@@ -46,11 +52,11 @@ public class Shooter extends SubsystemBase {
 
   public void runShooter () {
     //Get values from Smartdashboard
-    double Speed = SmartDashboard.getNumber("Shooter Motor Velocity Input", 0.0);
+    double speed = SmartDashboard.getNumber("Shooter Motor Velocity Input", 0.0);
 
     //Set Motor Speeds
-    shootMot1.set(motorConstants.IS_REVERSED * Speed);
-    shootMot2.set(Speed);
+    shootMot1.set(speed);
+    shootMot2.set(speed);
 
     SmartDashboard.putNumber("Motor 1 Velocity", shootEnc1.getVelocity());
     SmartDashboard.putNumber("Motor 2 Velocity", shootEnc2.getVelocity());

@@ -31,7 +31,13 @@ public final class Constants {
         public static final int SPEED_CONT17 = 17;
         public static final int SPEED_CONT18 = 18;
 
-        public static final int IS_REVERSED = -1;
+        public static final boolean LFMOT_INVERT = true;
+        public static final boolean LBMOT_INVERT = true;
+        public static final boolean RFMOT_INVERT = false;
+        public static final boolean RBMOT_INVERT = false;
+
+        public static final boolean SHOOTMOT1_INVERT = true;
+        public static final boolean SHOOTMOT2_INVERT = false;
     }
 
     public static final class xBoxConstants {
@@ -42,6 +48,7 @@ public final class Constants {
     }
 
     public static final class driverConstants{
+        public static final int DRIVER_PORT = 0;
         public static final int X_AXIS = 0;
         public static final int Y_AXIS = 1;
         public static final int Z_AXIS = 2;
