@@ -28,14 +28,13 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants.motorConstants;
 
 public class Chassis extends SubsystemBase {
-  private final CANSparkMax testController, testController_2, LFMotor, LBMotor, RFMotor, RBMotor;
-  private final RelativeEncoder testEncoder, testEncoder_2;
+  private final CANSparkMax testController, LFMotor, LBMotor, RFMotor, RBMotor;
+  private final RelativeEncoder testEncoder;
 
 
   public Chassis() {
     //Initialize motors
-    testController = new CANSparkMax(motorConstants.SPEED_CONT16, MotorType.kBrushless);
-    testController_2 = new CANSparkMax(motorConstants.SPEED_CONT17, MotorType.kBrushless);
+    testController = new CANSparkMax(motorConstants.SPEED_CONT18, MotorType.kBrushless);
     LFMotor = new CANSparkMax(motorConstants.SPEED_CONT12, MotorType.kBrushless);
     LBMotor = new CANSparkMax(motorConstants.SPEED_CONT13, MotorType.kBrushless);
     RFMotor = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
@@ -43,19 +42,16 @@ public class Chassis extends SubsystemBase {
 
     //Initialize encoders
     testEncoder = testController.getEncoder();
-    testEncoder_2 = testController_2.getEncoder();
 
     //Set brake
     testController.setIdleMode(IdleMode.kBrake);
-    testController_2.setIdleMode(IdleMode.kBrake);
     LFMotor.setIdleMode(IdleMode.kBrake);
     LBMotor.setIdleMode(IdleMode.kBrake);
     RFMotor.setIdleMode(IdleMode.kBrake);
     RBMotor.setIdleMode(IdleMode.kBrake);
 
     //Initialize input sections in Smartdashboard
-    //SmartDashboard.putNumber("PlaceHolder (DO NOT USE)", testEncoder.getVelocity());
-    SmartDashboard.putNumber("Test Motor(s) Velocity", testEncoder_2.getVelocity());
+    SmartDashboard.putNumber("Test Motor 1 Velocity", testEncoder.getVelocity());
       
     }
 
@@ -77,20 +73,16 @@ public class Chassis extends SubsystemBase {
   public void setSpeeds() {
     //Get values from Smartdashboard
     double lSpeed = SmartDashboard.getNumber("Test Motor 1 Velocity", 0.0);
-    double rSpeed = SmartDashboard.getNumber("Test Motor 2 Velocity", 0.0);
 
     //Set Motor Speeds
     testController.set(-lSpeed);
-    testController_2.set(rSpeed);
 
     SmartDashboard.putNumber("Motor 1 Velocity", testEncoder.getVelocity());
-    SmartDashboard.putNumber("Motor 2 Velocity", testEncoder_2.getVelocity());
   }
 
   public void setZero() {
     //Set Motor Speeds
     testController.set(0);
-    testController_2.set(0);
   }
   @Override
   public void periodic() {
