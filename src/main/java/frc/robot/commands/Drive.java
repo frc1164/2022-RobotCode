@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.driverConstants;
-import frc.robot.Constants.motorConstants;
+import frc.robot.commands.CenterDistance;
+import frc.robot.commands.CenterGoal;
 
 public class Drive extends CommandBase {
   private final Chassis m_Chassis;
-  double forward, turn;
+  double forward, turn, leftMSpeed, rightMSpeed;
   /** Creates a new Drive. */
   public Drive(Chassis m_Chassis) {
     this.m_Chassis = m_Chassis;
@@ -35,8 +36,12 @@ public class Drive extends CommandBase {
     forward = (Math.abs(forward) <= 0.1) ? 0 : forward; 
 
     //Final Speed
-    double leftMSpeed = (forward - turn);
-    double rightMSpeed = (forward + turn);
+    leftMSpeed = (forward - turn);
+    rightMSpeed = (forward + turn);
+
+    //Speed setting math
+    leftMSpeed = leftMSpeed + CenterDistance.distanceSpeed + CenterGoal.centerSpeed;
+    rightMSpeed = rightMSpeed + CenterDistance.distanceSpeed - CenterGoal.centerSpeed;
 
     //Command call
     m_Chassis.drive(leftMSpeed, rightMSpeed);

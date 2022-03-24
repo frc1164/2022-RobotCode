@@ -103,6 +103,14 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Distance from target", triangulate());
   }
 
+  //PID controller for Centering
+  public static double centerPIDout() {
+    if (get_lltarget()) {
+       return testPID.calculate(get_llx());
+      }
+      else {return 0;}
+  }
+
   //Distance PID controller
   public static double distancePID() {
     double botDistance = td.getDouble(0.0);

@@ -4,14 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Vision;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CenterGoal extends CommandBase {
-  /** Creates a new CenterGoal. */
-  public static double centerSpeed = 0.0;
-  public CenterGoal() {
+import frc.robot.subsystems.Vision;
+
+public class CenterDistance extends CommandBase {
+  public static double distanceSpeed = 0.0;
+  public CenterDistance() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -22,13 +21,13 @@ public class CenterGoal extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    centerSpeed = Vision.centerPIDout();
+    distanceSpeed = Vision.distancePID();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    centerSpeed = 0.0;
+    distanceSpeed = 0.0;
   }
 
   // Returns true when the command should end.
