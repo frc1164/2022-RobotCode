@@ -26,16 +26,16 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     //Get drive values from controller
-    double forward = RobotContainer.m_DriverController.getRawAxis(driverConstants.Y_AXIS);
-    double turn = RobotContainer.m_DriverController.getRawAxis(driverConstants.X_ROTATE);
+    double forward = RobotContainer.m_DriverController.getRawAxis(driverConstants.X_ROTATE);
+    double turn = RobotContainer.m_DriverController.getRawAxis(driverConstants.Y_AXIS);
 
     //Deadban
     turn = (Math.abs(turn) <= 0.1) ? 0 : turn;
     forward = (Math.abs(forward) <= 0.1) ? 0 : forward; 
 
     //Final Speed
-    double leftMSpeed = (forward - turn);
-    double rightMSpeed = (forward + turn);
+    double leftMSpeed = (forward + turn);
+    double rightMSpeed = (forward - turn);
 
     //Command call
     SmartDashboard.putNumber("Driver L speed", leftMSpeed);

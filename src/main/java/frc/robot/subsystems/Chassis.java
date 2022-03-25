@@ -26,7 +26,7 @@ public class Chassis extends SubsystemBase {
     RFMotor = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
     RBMotor = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
 
-    
+    //Reset Params
     LFMotor.restoreFactoryDefaults();
     LBMotor.restoreFactoryDefaults();
     RFMotor.restoreFactoryDefaults();
