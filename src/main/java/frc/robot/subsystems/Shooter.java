@@ -20,7 +20,7 @@ import frc.robot.Constants.motorConstants;
 import frc.robot.Constants.limitSwitchConstants;;
 
 public class Shooter extends SubsystemBase {
-  public CANSparkMax shootMot1,shootMot2, indexMot, liftMot;
+  public CANSparkMax shootMot1,shootMot2, feederMot, liftMot;
   public RelativeEncoder shootEnc1, shootEnc2, liftEnc;
   public DigitalInput topLimitSwitch, botLimitSwitch;
 
@@ -28,12 +28,12 @@ public class Shooter extends SubsystemBase {
     //Shooter Motors
     shootMot1 = new CANSparkMax(motorConstants.SPEED_CONT16, MotorType.kBrushless);
     shootMot2 = new CANSparkMax(motorConstants.SPEED_CONT17, MotorType.kBrushless);
-    indexMot = new CANSparkMax(motorConstants.SPEED_CONT18, MotorType.kBrushless);
+    feederMot = new CANSparkMax(motorConstants.SPEED_CONT18, MotorType.kBrushless);
     liftMot = new CANSparkMax(motorConstants.SPEED_CONT19, MotorType.kBrushless);
 
     shootMot1.setIdleMode(IdleMode.kCoast);
     shootMot2.setIdleMode(IdleMode.kCoast);
-    indexMot.setIdleMode(IdleMode.kCoast);
+    feederMot.setIdleMode(IdleMode.kCoast);
     liftMot.setIdleMode(IdleMode.kCoast);
 
     shootMot1.setInverted(motorConstants.SHOOTMOT1_INVERT);
@@ -55,8 +55,8 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
   }
 
-  public void runIndex (double speed) {
-    indexMot.set(speed);
+  public void runFeeder (double speed) {
+    feederMot.set(speed);
   }
 
   public void runShooter () {

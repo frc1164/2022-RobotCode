@@ -41,7 +41,7 @@ public final class Constants {
         public static final boolean SHOOTMOT1_INVERT = true;
         public static final boolean SHOOTMOT2_INVERT = false;
 
-        public static final double INDEX_MOTOR_SPEED = .45;
+        public static final double FEEDER_MOTOR_SPEED = .45;
     }
 
 
