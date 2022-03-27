@@ -8,8 +8,9 @@ import org.ejml.dense.block.MatrixOps_DDRB;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ReadRGB;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -27,12 +28,13 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ColorSensor m_ColorSensor = new ColorSensor();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ReadRGB m_autoCommand = new ReadRGB(m_ColorSensor);
   public static XboxController m_OperatorController;
 
   private final Drive m_Drive;
+  private final ReadRGB m_readRGB;
   private final DashSpeed m_DashSpeed;
   private final Chassis m_Chassis;
 
@@ -48,9 +50,11 @@ public class RobotContainer {
     //Define Commands
     m_Drive = new Drive(m_Chassis);
     m_DashSpeed = new DashSpeed(m_Chassis);
+    m_readRGB = new ReadRGB(m_ColorSensor);
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
+    m_ColorSensor.setDefaultCommand(m_readRGB);
 
     configureButtonBindings();
   }

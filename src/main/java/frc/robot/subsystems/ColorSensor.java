@@ -38,8 +38,14 @@ public class ColorSensor extends SubsystemBase {
    m_colorMatcher.addColorMatch(Color.kRed);
   }
 
+  private void read_RGB() {
+    
+  }
+
+
   @Override
   public void periodic() {
+    read_RGB();
     // This method will be called once per scheduler run
   }
 }
