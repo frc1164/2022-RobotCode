@@ -30,6 +30,8 @@ public final class Constants {
         public static final int SPEED_CONT16 = 16;
         public static final int SPEED_CONT17 = 17;
         public static final int SPEED_CONT18 = 18;
+        public static final int SPEED_CONT19 = 1;
+
 
         public static final boolean LFMOT_INVERT = true;
         public static final boolean LBMOT_INVERT = true;
@@ -38,13 +40,26 @@ public final class Constants {
 
         public static final boolean SHOOTMOT1_INVERT = true;
         public static final boolean SHOOTMOT2_INVERT = false;
+
+        public static final double INDEX_MOTOR_SPEED = .45;
+    }
+
+
+    public static final class limitSwitchConstants {
+        public static final int TOP_LIMIT_SWITCH_PORT = 0;
+        public static final int BOTTOM_LIMIT_SWITCH_PORT = 1;
+
+        
     }
 
     public static final class xBoxConstants {
         public static final int OPERATOR_PORT = 1;
         public static final int LY_AXIS = 1;
         public static final int LX_AXIS = 0;
-        public static final int A_BUTTON = 1;
+        public static final int A_BUTTON = 0;
+        public static final int B_BUTTON = 1;
+        public static final int X_BUTTON = 2;
+
     }
 
     public static final class driverConstants{

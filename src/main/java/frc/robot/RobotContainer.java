@@ -16,7 +16,9 @@ import frc.robot.Constants.xBoxConstants;
 
 //Commands imports
 import frc.robot.commands.Drive;
+import frc.robot.commands.RunLift;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.InitCommands.LiftInit;
 
 //Subsystems imports
 import frc.robot.subsystems.Chassis;
@@ -36,6 +38,8 @@ public class RobotContainer {
   //Commands declares
   private final Drive m_Drive;
   private final Shoot m_Shoot;
+  private final RunLift m_RunLift;
+  private final LiftInit m_LiftInit;
 
   //Subsystem declares
   private final Chassis m_Chassis;
@@ -54,6 +58,8 @@ public class RobotContainer {
     //Commands init
     m_Drive = new Drive(m_Chassis);
     m_Shoot = new Shoot(m_Shooter);
+    m_RunLift = new RunLift();
+    m_LiftInit = new LiftInit();
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
@@ -69,6 +75,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_Shoot);
+    new JoystickButton(m_OperatorController, xBoxConstants.B_BUTTON).whileHeld(m_RunLift);
+    new JoystickButton(m_OperatorController, xBoxConstants.X_BUTTON).whenPressed(m_LiftInit);
+
+
   }
 
   /**
