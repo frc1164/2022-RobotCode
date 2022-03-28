@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.driverConstants;
+
 //Constants imports
 import frc.robot.Constants.xBoxConstants;
 
@@ -18,6 +19,7 @@ import frc.robot.Constants.xBoxConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.RunLift;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.RunFeeder;
 import frc.robot.commands.InitCommands.LiftInit;
 
 //Subsystems imports
@@ -40,6 +42,7 @@ public class RobotContainer {
   private final Shoot m_Shoot;
   private final RunLift m_RunLift;
   private final LiftInit m_LiftInit;
+  private final RunFeeder  m_RunFeeder;
 
   //Subsystem declares
   private final Chassis m_Chassis;
@@ -60,6 +63,7 @@ public class RobotContainer {
     m_Shoot = new Shoot(m_Shooter);
     m_RunLift = new RunLift();
     m_LiftInit = new LiftInit();
+    m_RunFeeder = new RunFeeder();
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
@@ -77,6 +81,8 @@ public class RobotContainer {
     new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_Shoot);
     new JoystickButton(m_OperatorController, xBoxConstants.B_BUTTON).whileHeld(m_RunLift);
     new JoystickButton(m_OperatorController, xBoxConstants.X_BUTTON).whenPressed(m_LiftInit);
+    new JoystickButton(m_OperatorController, xBoxConstants.Y_BUTTON).whileHeld(m_RunFeeder);
+
 
 
   }

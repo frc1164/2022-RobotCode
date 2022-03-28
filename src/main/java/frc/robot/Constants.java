@@ -30,7 +30,7 @@ public final class Constants {
         public static final int SPEED_CONT16 = 16;
         public static final int SPEED_CONT17 = 17;
         public static final int SPEED_CONT18 = 18;
-        public static final int SPEED_CONT19 = 1;
+        public static final int SPEED_CONT19 = 19;
 
 
         public static final boolean LFMOT_INVERT = true;
@@ -56,9 +56,10 @@ public final class Constants {
         public static final int OPERATOR_PORT = 1;
         public static final int LY_AXIS = 1;
         public static final int LX_AXIS = 0;
-        public static final int A_BUTTON = 0;
-        public static final int B_BUTTON = 1;
-        public static final int X_BUTTON = 2;
+        public static final int A_BUTTON = 1;
+        public static final int B_BUTTON = 2;
+        public static final int X_BUTTON = 3;
+        public static final int Y_BUTTON = 4;
 
     }
 

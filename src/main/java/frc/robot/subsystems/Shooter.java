@@ -20,9 +20,11 @@ import frc.robot.Constants.motorConstants;
 import frc.robot.Constants.limitSwitchConstants;;
 
 public class Shooter extends SubsystemBase {
-  public CANSparkMax shootMot1,shootMot2, feederMot, liftMot;
-  public RelativeEncoder shootEnc1, shootEnc2, liftEnc;
-  public DigitalInput topLimitSwitch, botLimitSwitch;
+  public CANSparkMax shootMot1,shootMot2; 
+  public static CANSparkMax feederMot, liftMot;
+  public RelativeEncoder shootEnc1, shootEnc2;
+  public static RelativeEncoder liftEnc;
+  public static DigitalInput topLimitSwitch, botLimitSwitch;
 
   public Shooter() {
     //Shooter Motors
@@ -44,6 +46,7 @@ public class Shooter extends SubsystemBase {
     liftEnc = liftMot.getEncoder();
 
     //Smartdashboard
+    SmartDashboard.putNumber("Lift Motor Velocity Input", 0.0);
     SmartDashboard.putNumber("Shooter Motor Velocity Input", shootEnc1.getVelocity());
 
     //Lift limitswitches
@@ -53,9 +56,10 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Encoder pos", liftEnc.getPosition());
   }
 
-  public void runFeeder (double speed) {
+  public static void runFeeder (double speed) {
     feederMot.set(speed);
   }
 
@@ -71,20 +75,22 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Motor 2 Velocity", shootEnc2.getVelocity());
   }
 
-  public void liftInit() {
-    while (botLimitSwitch.get()){
-      liftMot.set(-0.05);
+  public static void liftInit() {
+    liftMot.set(0.1);
+    if (!botLimitSwitch.get()) {
+      liftMot.set(0.0);
+      liftEnc.setPosition(0);
     }
-    liftEnc.setPosition(0);
   }
 
-  public void runLift() {
+  public static void runLift() {
     double speed = SmartDashboard.getNumber("Lift Motor Velocity Input", 0.0);
 
     if (topLimitSwitch.get() && botLimitSwitch.get()){
       liftMot.set(speed);
 
     } else {liftMot.set(0.0);}
+
     SmartDashboard.putNumber("Lift position", liftEnc.getPosition());
   }
 
