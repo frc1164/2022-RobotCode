@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
     shootMot1 = new CANSparkMax(motorConstants.SPEED_CONT16, MotorType.kBrushless);
     shootMot2 = new CANSparkMax(motorConstants.SPEED_CONT17, MotorType.kBrushless);
     feederMot = new CANSparkMax(motorConstants.SPEED_CONT18, MotorType.kBrushless);
-    liftMot = new CANSparkMax(motorConstants.SPEED_CONT19, MotorType.kBrushless);
+    liftMot = new CANSparkMax(motorConstants.SHOOTER_LIFT, MotorType.kBrushless);
 
     shootMot1.setIdleMode(IdleMode.kCoast);
     shootMot2.setIdleMode(IdleMode.kCoast);
@@ -75,12 +75,16 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Motor 2 Velocity", shootEnc2.getVelocity());
   }
 
-  public static void liftInit() {
-    liftMot.set(0.1);
-    if (!botLimitSwitch.get()) {
+  public static boolean liftInit() {
+    if (botLimitSwitch.get()){
+      liftMot.set(0.1);
+    }
+    if (!botLimitSwitch.get()){
       liftMot.set(0.0);
       liftEnc.setPosition(0);
+      return true;
     }
+    return false;
   }
 
   public static void runLift() {

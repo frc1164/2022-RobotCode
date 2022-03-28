@@ -9,8 +9,11 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LiftInit extends CommandBase {
-  public LiftInit() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private boolean isFinished;
+  private Shooter m_Shooter;
+  public LiftInit(Shooter m_Shooter) {
+    this.m_Shooter = m_Shooter;
+    addRequirements(m_Shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -20,7 +23,7 @@ public class LiftInit extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Shooter.liftInit();
+    isFinished = Shooter.liftInit();
   }
 
   // Called once the command ends or is interrupted.
@@ -32,6 +35,6 @@ public class LiftInit extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }
