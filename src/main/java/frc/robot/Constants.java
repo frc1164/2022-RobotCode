@@ -30,7 +30,12 @@ public final class Constants {
         public static final int SPEED_CONT16 = 16;
         public static final int SPEED_CONT17 = 17;
         public static final int SPEED_CONT18 = 18;
-        public static final int SPEED_CONT19 = 19;
+        public static final int SHOOTER_LIFT = 19;
+        public static final int BEATER_ROLL = 20;
+        public static final int CONVEYOR = 21;
+
+
+        public static final int BEATER_LIFT = 24;
 
 
         public static final boolean LFMOT_INVERT = true;

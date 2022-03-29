@@ -11,21 +11,28 @@ import frc.robot.Constants.motorConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class Intake extends SubsystemBase {
-  private CANSparkMax beatLift, beatRoll, conveyorMot;
+  public CANSparkMax beatLift, beatRoll;
+  public static VictorSPX conveyorMot;
   public Intake() {
     beatLift = new CANSparkMax(motorConstants.BEATER_LIFT, MotorType.kBrushless);
     beatRoll = new CANSparkMax(motorConstants.BEATER_ROLL, MotorType.kBrushless);
-    conveyorMot = new CANSparkMax(motorConstants.CONVEYOR, MotorType.kBrushless);
+    conveyorMot = new VictorSPX(motorConstants.CONVEYOR);
+
+    beatLift.setIdleMode(IdleMode.kCoast);
+    beatRoll.setIdleMode(IdleMode.kCoast);
+
 
     SmartDashboard.putNumber("Conveyor Motor Input", 0.0);
     SmartDashboard.putNumber("Intake Motor Input", 0.0);
   }
 
-  public void runConveyor () {
+  public static void runConveyor () {
     double speed = SmartDashboard.getNumber("Conveyor Motor Input", 0.0);
-    conveyorMot.set(speed);
+    conveyorMot.set(ControlMode.PercentOutput, speed);
   }
 
   public void runIntake () {

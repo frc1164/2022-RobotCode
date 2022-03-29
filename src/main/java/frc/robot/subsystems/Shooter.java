@@ -17,7 +17,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 //Robot imports
 import frc.robot.Constants.motorConstants;
-import frc.robot.Constants.limitSwitchConstants;;
+import frc.robot.Constants.limitSwitchConstants;
 
 public class Shooter extends SubsystemBase {
   public CANSparkMax shootMot1,shootMot2; 

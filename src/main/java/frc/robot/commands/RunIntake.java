@@ -4,14 +4,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 
-public class RunLift extends CommandBase {
-  Shooter m_Shooter;
-  public RunLift(Shooter m_Shooter) {
-    this.m_Shooter = m_Shooter;
-    addRequirements(m_Shooter);
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class RunIntake extends CommandBase {
+  private Intake m_Intake;
+  public RunIntake(Intake m_Intake) {
+    this.m_Intake = m_Intake;
+    addRequirements(m_Intake);
   }
 
   // Called when the command is initially scheduled.
@@ -21,13 +22,13 @@ public class RunLift extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Shooter.runLift();
+    m_Intake.runIntake();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Shooter.liftMot.set(0.0);
+    m_Intake.beatRoll.set(0.0);
   }
 
   // Returns true when the command should end.
