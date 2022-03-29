@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import java.rmi.server.RMIFailureHandler;
 
@@ -19,13 +20,14 @@ import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants.motorConstants;
 
-public class Chassis extends SubsystemBase {
-  private CANSparkMax lfMot, lbMot, rfMot, rbMot;
+import com.kauailabs.navx.frc.AHRS;
 
-  lfMot = new CANSparkMax(motorConstants.SPEED_CONT12, MotorType.kBrushless);
-  lbMot = new CANSparkMax(motorConstants.SPEED_CONT13, MotorType.kBrushless);
-  rfMot = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
-  rbMot = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
+public class Chassis extends SubsystemBase {
+
+  private CANSparkMax lfMot = new CANSparkMax(motorConstants.SPEED_CONT12, MotorType.kBrushless);
+  private CANSparkMax lbMot = new CANSparkMax(motorConstants.SPEED_CONT13, MotorType.kBrushless);
+  private CANSparkMax rfMot = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
+  private CANSparkMax rbMot = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
 
 
   // The motors on the left side of the drive.
@@ -45,10 +47,11 @@ public class Chassis extends SubsystemBase {
   private final RelativeEncoder m_rightEncoder = rfMot.getEncoder();
 
   // The gyro sensor
-  private final Gyro m_gyro = new ADXRS450_Gyro();
+  private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
+  }
 
   /** Creates a new DriveSubsystem. */
   public Chassis() {
