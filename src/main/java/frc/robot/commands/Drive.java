@@ -40,6 +40,10 @@ public class Drive extends CommandBase {
     //Command call
     SmartDashboard.putNumber("Driver L speed", leftMSpeed);
     SmartDashboard.putNumber("Driver R speed", rightMSpeed);
+    SmartDashboard.putNumber("Turn", turn);
+    SmartDashboard.putNumber("forward", forward);
+    SmartDashboard.putNumber("Turn m", RobotContainer.m_DriverController.getRawAxis(driverConstants.Y_AXIS));
+    SmartDashboard.putNumber("forward m", RobotContainer.m_DriverController.getRawAxis(driverConstants.X_ROTATE));
     m_Chassis.drive(leftMSpeed, rightMSpeed);
   }
 
