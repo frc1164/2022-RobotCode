@@ -8,28 +8,49 @@ import frc.robot.Constants.motorConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Climber extends SubsystemBase {
-  public CANSparkMax winchMot, angleMot;
-  public DigitalInput topLim, botLim, angleLim;
+  private static CANSparkMax angleMot;
+  private CANSparkMax winchMot;
+  private static DigitalInput topLim, botLim, angleLim;
   public Climber() {
     winchMot = new CANSparkMax(motorConstants.SPEED_CONT22, MotorType.kBrushless);
     angleMot = new CANSparkMax(motorConstants.SPEED_CONT23, MotorType.kBrushless);
 
     winchMot.setIdleMode(IdleMode.kBrake);
     angleMot.setIdleMode(IdleMode.kBrake);
+
+    winchMot.setInverted(motorConstants.CLIMB_INVERTED);
+
+    topLim = new DigitalInput(2);
+    botLim = new DigitalInput(3);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Top Limit", topLim.get());
+    SmartDashboard.putBoolean("Bottom Limit", botLim.get());
   }
 
   public void runWinch (double speed) {
-    winchMot.set(speed);
+    if(topLim.get() && speed > 0){
+      winchMot.set(speed);
+    } else if (botLim.get() && speed < 0){
+      winchMot.set(speed);
+    }
+    else {
+      winchMot.set(0.0);
+    }
+  }
+
+  public static void angleClimb (double speed) {
+    if(topLim.get() && botLim.get()){
+      angleMot.set(speed);
+    }
   }
 }

@@ -30,6 +30,11 @@ public final class Constants {
         public static final int SPEED_CONT16 = 16;
         public static final int SPEED_CONT17 = 17;
         public static final int SPEED_CONT18 = 18;
+
+        public static final int SPEED_CONT22 = 22;
+        public static final int SPEED_CONT23 = 23;
+
+        public static final boolean CLIMB_INVERTED = true;
     }
 
     public static final class xBoxConstants {

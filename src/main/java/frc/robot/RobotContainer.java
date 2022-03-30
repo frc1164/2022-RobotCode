@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.xBoxConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DashSpeed;
+import frc.robot.commands.runClimb;
+import frc.robot.commands.angleClimb;
+import frc.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -34,13 +37,16 @@ public class RobotContainer {
 
   private final Drive m_Drive;
   private final DashSpeed m_DashSpeed;
+  private final runClimb m_RunClimb;
   private final Chassis m_Chassis;
+  private final Climber m_Climber;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
 
     m_Chassis = new Chassis();
+    m_Climber = new Climber();
 
     //Define Controllers
     m_OperatorController = new XboxController(xBoxConstants.OPERATOR_PORT);
@@ -48,9 +54,11 @@ public class RobotContainer {
     //Define Commands
     m_Drive = new Drive(m_Chassis);
     m_DashSpeed = new DashSpeed(m_Chassis);
+    m_RunClimb = new runClimb(m_Climber);
 
     //Set Default Commands
-    m_Chassis.setDefaultCommand(m_Drive);
+    //m_Chassis.setDefaultCommand(m_Drive);
+    m_Climber.setDefaultCommand(m_RunClimb);
 
     configureButtonBindings();
   }

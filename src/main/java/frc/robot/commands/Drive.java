@@ -25,8 +25,8 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     //Get drive values from controller
-    double forward = RobotContainer.m_OperatorController.getRawAxis(driverConstants.Y_AXIS);
-    double turn = RobotContainer.m_OperatorController.getRawAxis(driverConstants.X_ROTATE);
+    double forward = 0;//RobotContainer.m_OperatorController.getRawAxis(driverConstants.Y_AXIS);
+    double turn = 0;//RobotContainer.m_OperatorController.getRawAxis(driverConstants.X_ROTATE);
 
     //Deadban
     turn = (Math.abs(turn) <= 0.1) ? 0 : turn;
