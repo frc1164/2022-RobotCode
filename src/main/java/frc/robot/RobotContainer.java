@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
+
+//Robot imports
 import frc.robot.Constants.driverConstants;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -33,6 +35,7 @@ import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,12 +64,14 @@ public class RobotContainer {
   public final Shooter m_Shooter;
   private final Intake m_Intake;
   private final Climber m_Climber;
+  private final Vision m_Vision;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //Subsystems init
     m_Chassis = new Chassis();
     m_Shooter = new Shooter();
+    m_Vision = new Vision();
     m_Intake = new Intake();
     m_Climber = new Climber();
 

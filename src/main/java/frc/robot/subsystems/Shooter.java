@@ -62,8 +62,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Motor Velocity Input", shootEnc1.getVelocity());
 
     //Lift limitswitches
-    botLimitSwitch = new DigitalInput(limitSwitchConstants.BOTTOM_LIMIT_SWITCH_PORT);
     topLimitSwitch = new DigitalInput(limitSwitchConstants.TOP_LIMIT_SWITCH_PORT);
+    botLimitSwitch = new DigitalInput(limitSwitchConstants.BOTTOM_LIMIT_SWITCH_PORT);
   }
 
   @Override
@@ -93,6 +93,7 @@ public class Shooter extends SubsystemBase {
   public static boolean liftInit() {
     if (botLimitSwitch.get()){
       liftMot.set(-0.1);
+      liftMot.set(0.6);
     }
     if (!botLimitSwitch.get()){
       liftMot.set(0.0);

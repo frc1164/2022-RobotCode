@@ -4,14 +4,14 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.Vision;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.Intake;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-public class RunConveyor extends CommandBase {
-  public RunConveyor() {
+public class CenterGoal extends CommandBase {
+  /** Creates a new CenterGoal. */
+  public static double centerSpeed = 0.0;
+  public CenterGoal() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -22,13 +22,13 @@ public class RunConveyor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Intake.runConveyor();
+    centerSpeed = Vision.centerPIDout();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Intake.conveyorMot.set(ControlMode.PercentOutput, 0.0);
+    centerSpeed = 0.0;
   }
 
   // Returns true when the command should end.

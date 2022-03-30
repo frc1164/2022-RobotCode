@@ -38,8 +38,8 @@ public final class Constants {
         public static final int CONVEYOR = 21;
         public static final int SPEED_CONT22 = 22;
         public static final int SPEED_CONT23 = 23;
-        public static final int BEATER_LIFT = 24;
 
+        public static final int BEATER_LIFT = 24;
 
         public static final boolean LFMOT_INVERT = true;
         public static final boolean LBMOT_INVERT = true;
@@ -57,8 +57,6 @@ public final class Constants {
     public static final class limitSwitchConstants {
         public static final int TOP_LIMIT_SWITCH_PORT = 0;
         public static final int BOTTOM_LIMIT_SWITCH_PORT = 1;
-
-        
     }
 
     public static final class xBoxConstants {
