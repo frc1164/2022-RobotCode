@@ -52,7 +52,7 @@ public class RobotContainer {
 
   //Subsystem declares
   private final Chassis m_Chassis;
-  public static Shooter m_Shooter;
+  public final Shooter m_Shooter;
   private final Intake m_Intake;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

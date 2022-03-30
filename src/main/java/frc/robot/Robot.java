@@ -22,8 +22,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  LiftInit m_LiftInit = new LiftInit(RobotContainer.m_Shooter);
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,8 +31,12 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     
-    m_LiftInit.schedule();
     m_robotContainer = new RobotContainer();
+
+    LiftInit m_LiftInit = new LiftInit(m_robotContainer.m_Shooter);
+    m_LiftInit.schedule();
+
+
   }
 
   /**
@@ -63,7 +65,6 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

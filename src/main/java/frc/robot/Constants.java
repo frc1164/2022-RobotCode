@@ -36,8 +36,8 @@ public final class Constants {
         public static final int SHOOTER_LIFT = 19;
         public static final int BEATER_ROLL = 20;
         public static final int CONVEYOR = 21;
-
-
+        public static final int SPEED_CONT22 = 22;
+        public static final int SPEED_CONT23 = 23;
         public static final int BEATER_LIFT = 24;
 
 
@@ -45,9 +45,9 @@ public final class Constants {
         public static final boolean LBMOT_INVERT = true;
         public static final boolean RFMOT_INVERT = false;
         public static final boolean RBMOT_INVERT = false;
-
         public static final boolean SHOOTMOT1_INVERT = true;
         public static final boolean SHOOTMOT2_INVERT = false;
+        public static final boolean CLIMB_INVERTED = false;
 
         public static final double FEEDER_MOTOR_SPEED = .45;
     }
