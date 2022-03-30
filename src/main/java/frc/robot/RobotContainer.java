@@ -46,14 +46,13 @@ public class RobotContainer {
   private final Shoot m_Shoot;
   private final ReadBall m_ReadBall;
   private final RunLift m_RunLift;
-  private final LiftInit m_LiftInit;
   private final RunFeeder  m_RunFeeder;
   private final RunConveyor m_RunConveyor;
   private final RunIntake m_RunIntake;
 
   //Subsystem declares
   private final Chassis m_Chassis;
-  private final Shooter m_Shooter;
+  public static Shooter m_Shooter;
   private final Intake m_Intake;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -72,7 +71,6 @@ public class RobotContainer {
     m_Shoot = new Shoot(m_Shooter);
     m_ReadBall = new ReadBall(m_Shooter);
     m_RunLift = new RunLift(m_Shooter);
-    m_LiftInit = new LiftInit(m_Shooter);
     m_RunFeeder = new RunFeeder();
     m_RunConveyor = new RunConveyor();
     m_RunIntake = new RunIntake(m_Intake);
@@ -93,7 +91,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_Shoot);
     new JoystickButton(m_OperatorController, xBoxConstants.B_BUTTON).whileHeld(m_RunConveyor);
-    new JoystickButton(m_OperatorController, xBoxConstants.X_BUTTON).whenPressed(m_LiftInit);
     new JoystickButton(m_OperatorController, xBoxConstants.Y_BUTTON).whileHeld(m_RunIntake);
     new JoystickButton(m_OperatorController, 5).whileHeld(m_RunLift);
     new JoystickButton(m_OperatorController, 6).whileHeld(m_RunFeeder);
