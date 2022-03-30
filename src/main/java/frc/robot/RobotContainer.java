@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.driverConstants;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 //Constants imports
 import frc.robot.Constants.xBoxConstants;
+import frc.robot.commands.AngleClimb;
 
 //Commands imports
 import frc.robot.commands.Drive;
@@ -28,6 +30,7 @@ import frc.robot.commands.InitCommands.LiftInit;
 
 //Subsystems imports
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 
@@ -51,11 +54,13 @@ public class RobotContainer {
   private final RunConveyor m_RunConveyor;
   private final RunIntake m_RunIntake;
   private final RunBeaterLift m_RunBeaterLift;
+  private final AngleClimb m_AngleClimb;
 
   //Subsystem declares
   private final Chassis m_Chassis;
   public final Shooter m_Shooter;
   private final Intake m_Intake;
+  private final Climber m_Climber;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -63,6 +68,7 @@ public class RobotContainer {
     m_Chassis = new Chassis();
     m_Shooter = new Shooter();
     m_Intake = new Intake();
+    m_Climber = new Climber();
 
     //Controllers init
     m_OperatorController = new XboxController(xBoxConstants.OPERATOR_PORT);
@@ -77,6 +83,7 @@ public class RobotContainer {
     m_RunConveyor = new RunConveyor();
     m_RunIntake = new RunIntake(m_Intake);
     m_RunBeaterLift = new RunBeaterLift(m_Intake);
+    m_AngleClimb = new AngleClimb(m_Climber);
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);

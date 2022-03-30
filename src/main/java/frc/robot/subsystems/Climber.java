@@ -38,6 +38,8 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Top Limit", topLim.get());
     SmartDashboard.putBoolean("Bottom Limit", botLim.get());
+    SmartDashboard.putBoolean("back Limit", backLim.get());
+    SmartDashboard.putBoolean("front Limit", frontLim.get());
   }
 
   public void runWinch (double speed) {
@@ -51,9 +53,9 @@ public class Climber extends SubsystemBase {
     }
   }
 
-  public static void angleClimb (double speed) {
+  public void angleClimb (double speed) {
     if (speed > 0.0){
-      if(backLim.get()){
+      if(frontLim.get()){
         angleMot.set(speed);
       }
       else {
@@ -61,7 +63,7 @@ public class Climber extends SubsystemBase {
       }
     }
     else if (speed < 0.0) {
-      if (frontLim.get()){
+      if (backLim.get()){
          angleMot.set(speed);
       }
       else {

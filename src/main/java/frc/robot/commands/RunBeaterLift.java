@@ -23,7 +23,7 @@ public class RunBeaterLift extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Intake.beaterLift(RobotContainer.m_OperatorController.getRawAxis(5)/4);
+    //m_Intake.beaterLift(RobotContainer.m_OperatorController.getRawAxis(5)/4);
   }
 
   // Called once the command ends or is interrupted.

@@ -4,12 +4,16 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.Climber;
+import frc.robot.RobotContainer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AngleClimb extends CommandBase {
-  /** Creates a new AngleClimb. */
-  public AngleClimb() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  Climber m_Climber;
+  public AngleClimb(Climber m_Climber) {
+    this.m_Climber = m_Climber;
+    addRequirements(m_Climber);
   }
 
   // Called when the command is initially scheduled.
@@ -18,7 +22,9 @@ public class AngleClimb extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_Climber.angleClimb(RobotContainer.m_OperatorController.getRawAxis(5)/4);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
