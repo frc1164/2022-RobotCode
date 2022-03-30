@@ -25,7 +25,7 @@ public class Climber extends SubsystemBase {
     winchMot.setIdleMode(IdleMode.kBrake);
     angleMot.setIdleMode(IdleMode.kBrake);
 
-    winchMot.setInverted(motorConstants.CLIMB_INVERTED);
+    //winchMot.setInverted(motorConstants.CLIMB_INVERTED);
 
     topLim = new DigitalInput(2);
     botLim = new DigitalInput(3);
@@ -38,14 +38,26 @@ public class Climber extends SubsystemBase {
   }
 
   public void runWinch (double speed) {
-    if(topLim.get() && speed > 0){
-      winchMot.set(speed);
-    } else if (botLim.get() && speed < 0){
-      winchMot.set(speed);
+    if (speed > 0.1){
+      if(topLim.get()){
+        winchMot.set(speed);
+      }
+      else {
+        winchMot.set(0.0);
+      }
+    }
+    else if (speed < -0.1) {
+      if (botLim.get()){
+         winchMot.set(speed);
+      }
+      else {
+        winchMot.set(0.0);
+      }
     }
     else {
       winchMot.set(0.0);
     }
+    SmartDashboard.putNumber("Speed", speed);
   }
 
   public static void angleClimb (double speed) {
