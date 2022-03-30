@@ -4,15 +4,16 @@
 
 package frc.robot.commands;
 
+//Robot imports
+import frc.robot.subsystems.Shooter;
+import frc.robot.Constants.motorConstants;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Chassis;
 
-
-public class DashSpeed extends CommandBase {
-  public final Chassis m_Chassis;
-  public DashSpeed(Chassis m_Chassis) {
-    this.m_Chassis = m_Chassis;
-    addRequirements(m_Chassis);  }
+public class RunFeeder extends CommandBase {
+  public RunFeeder() {
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
 
   // Called when the command is initially scheduled.
   @Override
@@ -21,13 +22,13 @@ public class DashSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Chassis.setSpeeds();
+    Shooter.runFeeder(motorConstants.FEEDER_MOTOR_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Chassis.setZero();
+    Shooter.runFeeder(0.0);
   }
 
   // Returns true when the command should end.

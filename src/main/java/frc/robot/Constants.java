@@ -29,7 +29,28 @@ public final class Constants {
         public static final int SPEED_CONT15 = 15;
         public static final int SPEED_CONT16 = 16;
         public static final int SPEED_CONT17 = 17;
-        public static final int IS_INVERTED = -1;
+        public static final int SPEED_CONT18 = 18;
+        public static final int SHOOTER_LIFT = 19;
+        public static final int BEATER_ROLL = 20;
+        public static final int CONVEYOR = 21;
+        public static final int BEATER_LIFT = 24;
+
+        public static final boolean LFMOT_INVERT = true;
+        public static final boolean LBMOT_INVERT = true;
+        public static final boolean RFMOT_INVERT = false;
+        public static final boolean RBMOT_INVERT = false;
+        public static final boolean SHOOTMOT1_INVERT = true;
+        public static final boolean SHOOTMOT2_INVERT = false;
+
+        public static final double FEEDER_MOTOR_SPEED = .45;
+    }
+
+
+    public static final class limitSwitchConstants {
+        public static final int TOP_LIMIT_SWITCH_PORT = 0;
+        public static final int BOTTOM_LIMIT_SWITCH_PORT = 1;
+
+        
     }
 
     public static final class xBoxConstants {
@@ -37,6 +58,10 @@ public final class Constants {
         public static final int LY_AXIS = 1;
         public static final int LX_AXIS = 0;
         public static final int A_BUTTON = 1;
+        public static final int B_BUTTON = 2;
+        public static final int X_BUTTON = 3;
+        public static final int Y_BUTTON = 4;
+
     }
 
     public static final class driverConstants{
