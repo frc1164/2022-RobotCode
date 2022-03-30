@@ -89,12 +89,25 @@ public class Shooter extends SubsystemBase {
 
   public static void runLift() {
     double speed = SmartDashboard.getNumber("Lift Motor Velocity Input", 0.0);
-
-    if (topLimitSwitch.get() && botLimitSwitch.get()){
-      liftMot.set(speed);
-
-    } else {liftMot.set(0.0);}
-
+    if (speed > 0.0){
+      if(botLimitSwitch.get()){
+        liftMot.set(speed);
+      }
+      else {
+        liftMot.set(0.0);
+      }
+    }
+    else if (speed < 0.0) {
+      if (topLimitSwitch.get()){
+         liftMot.set(speed);
+      }
+      else {
+        liftMot.set(0.0);
+      }
+    }
+    else {
+      liftMot.set(0.0);
+    }
     SmartDashboard.putNumber("Lift position", liftEnc.getPosition());
   }
 
