@@ -46,6 +46,7 @@ public class Shooter extends SubsystemBase {
     liftMot.setIdleMode(IdleMode.kCoast);
 
     shootMot1.setInverted(motorConstants.SHOOTMOT1_INVERT);
+    liftMot.setInverted(motorConstants.SHOOTER_LIFT_INVERT);
 
     //Shooter Encoders
     shootEnc1 = shootMot1.getEncoder();
@@ -68,6 +69,9 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Encoder pos", liftEnc.getPosition());
+    SmartDashboard.putBoolean("Shooter Top Limit", topLimitSwitch.get());
+    SmartDashboard.putBoolean("Shooter Bottom Limit", botLimitSwitch.get());
+
   }
 
   public static void runFeeder (double speed) {
@@ -88,7 +92,7 @@ public class Shooter extends SubsystemBase {
 
   public static boolean liftInit() {
     if (botLimitSwitch.get()){
-      liftMot.set(0.1);
+      liftMot.set(-0.1);
     }
     if (!botLimitSwitch.get()){
       liftMot.set(0.0);
@@ -101,7 +105,7 @@ public class Shooter extends SubsystemBase {
   public static void runLift() {
     double speed = SmartDashboard.getNumber("Lift Motor Velocity Input", 0.0);
     if (speed > 0.0){
-      if(botLimitSwitch.get()){
+      if(topLimitSwitch.get()){
         liftMot.set(speed);
       }
       else {
@@ -109,7 +113,7 @@ public class Shooter extends SubsystemBase {
       }
     }
     else if (speed < 0.0) {
-      if (topLimitSwitch.get()){
+      if (botLimitSwitch.get()){
          liftMot.set(speed);
       }
       else {
