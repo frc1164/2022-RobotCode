@@ -12,6 +12,9 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
+
+import edu.wpi.first.wpilibj.I2C;
+
 public final class Constants {
     public static final class motorConstants {
         public static final int SPEED_CONT3 = 3;
@@ -53,5 +56,9 @@ public final class Constants {
         public static final int Y_AXIS = 1;
         public static final int Z_AXIS = 2;
         public static final int X_ROTATE = 3;
+    }
+
+    public static final class colorSensorConstants{
+        public static final I2C.Port i2cPort = I2C.Port.kOnboard;
     }
 }

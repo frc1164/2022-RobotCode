@@ -16,6 +16,7 @@ import frc.robot.Constants.xBoxConstants;
 
 //Commands imports
 import frc.robot.commands.Drive;
+import frc.robot.commands.ReadBall;
 import frc.robot.commands.Shoot;
 
 //Subsystems imports
@@ -36,6 +37,7 @@ public class RobotContainer {
   //Commands declares
   private final Drive m_Drive;
   private final Shoot m_Shoot;
+  private final ReadBall m_ReadBall;
 
   //Subsystem declares
   private final Chassis m_Chassis;
@@ -54,9 +56,11 @@ public class RobotContainer {
     //Commands init
     m_Drive = new Drive(m_Chassis);
     m_Shoot = new Shoot(m_Shooter);
+    m_ReadBall = new ReadBall(m_Shooter);
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
+    m_Shooter.setDefaultCommand(m_ReadBall);
 
     configureButtonBindings();
   }
