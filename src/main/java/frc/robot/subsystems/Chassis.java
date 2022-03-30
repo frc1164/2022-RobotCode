@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import java.rmi.server.RMIFailureHandler;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -29,6 +30,8 @@ public class Chassis extends SubsystemBase {
   private CANSparkMax lbMot = new CANSparkMax(motorConstants.SPEED_CONT13, MotorType.kBrushless);
   private CANSparkMax rfMot = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
   private CANSparkMax rbMot = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
+
+  
 
 
   // The motors on the left side of the drive.
@@ -59,6 +62,11 @@ public class Chassis extends SubsystemBase {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
+    lfMot.setIdleMode(IdleMode.kCoast);
+    lbMot.setIdleMode(IdleMode.kCoast);
+    rfMot.setIdleMode(IdleMode.kCoast);
+    rbMot.setIdleMode(IdleMode.kCoast);
+
     m_leftMotors.setInverted(true);
 
     // Sets the distance per pulse for the encoders

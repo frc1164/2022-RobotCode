@@ -40,7 +40,7 @@ public class Drive extends CommandBase {
     //Command call
     SmartDashboard.putNumber("Driver L speed", leftMSpeed);
     SmartDashboard.putNumber("Driver R speed", rightMSpeed);
-    m_Chassis.arcadeDrive(leftMSpeed, rightMSpeed);
+    m_Chassis.arcadeDrive(forward, turn);
   }
 
   // Called once the command ends or is interrupted.
