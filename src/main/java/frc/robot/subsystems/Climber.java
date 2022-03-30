@@ -17,7 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Climber extends SubsystemBase {
   private static CANSparkMax angleMot;
   private CANSparkMax winchMot;
-  private static DigitalInput topLim, botLim, angleLim;
+  private static DigitalInput topLim, botLim, backLim, frontLim;
   public Climber() {
     winchMot = new CANSparkMax(motorConstants.SPEED_CONT22, MotorType.kBrushless);
     angleMot = new CANSparkMax(motorConstants.SPEED_CONT23, MotorType.kBrushless);
@@ -29,6 +29,9 @@ public class Climber extends SubsystemBase {
 
     topLim = new DigitalInput(2);
     botLim = new DigitalInput(3);
+
+    backLim = new DigitalInput(6);
+    frontLim = new DigitalInput(7);
   }
 
   @Override
@@ -49,8 +52,24 @@ public class Climber extends SubsystemBase {
   }
 
   public static void angleClimb (double speed) {
-    if(topLim.get() && botLim.get()){
-      angleMot.set(speed/4);
+    if (speed > 0.0){
+      if(backLim.get()){
+        angleMot.set(speed);
+      }
+      else {
+        angleMot.set(0.0);
+      }
+    }
+    else if (speed < 0.0) {
+      if (frontLim.get()){
+         angleMot.set(speed);
+      }
+      else {
+        angleMot.set(0.0);
+      }
+    }
+    else {
+      angleMot.set(0.0);
     }
   }
 }
