@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 //WPI imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 //REV imports
@@ -14,15 +15,21 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorMatch;
 
 //Robot imports
 import frc.robot.Constants.motorConstants;
+import frc.robot.Constants.colorSensorConstants;
 import frc.robot.Constants.limitSwitchConstants;
 
 public class Shooter extends SubsystemBase {
   public CANSparkMax shootMot1,shootMot2; 
   public static CANSparkMax feederMot, liftMot;
   public RelativeEncoder shootEnc1, shootEnc2;
+  public final ColorSensorV3 m_colorSensor;
+  public final ColorMatch m_colorMatcher;
   public static RelativeEncoder liftEnc;
   public static DigitalInput topLimitSwitch, botLimitSwitch;
 
@@ -44,6 +51,10 @@ public class Shooter extends SubsystemBase {
     shootEnc1 = shootMot1.getEncoder();
     shootEnc2 = shootMot2.getEncoder();
     liftEnc = liftMot.getEncoder();
+
+    //Color Sensor
+    m_colorSensor = new ColorSensorV3(colorSensorConstants.i2cPort);
+    m_colorMatcher = new ColorMatch();
 
     //Smartdashboard
     SmartDashboard.putNumber("Lift Motor Velocity Input", 0.0);
@@ -102,4 +113,47 @@ public class Shooter extends SubsystemBase {
     shootMot1.set(0.0);
     shootMot2.set(0.0);
   }
+
+  public String readBall () {
+    Color detectedColor = m_colorSensor.getColor();
+
+
+    /**
+     * The sensor returns a raw IR value of the infrared light detected.
+     */
+    double IR = m_colorSensor.getIR();
+    double red = detectedColor.red;
+    double blue = detectedColor.blue;
+
+    if (IR > 15) {
+      SmartDashboard.putBoolean("has_ball", true);
+    }
+    else SmartDashboard.putBoolean("has_ball", false);
+
+    if (red >= 0.4 && red <= 0.6 && blue <= 0.2) {
+      return "RED";
+    }
+
+    else if (blue >= 0.33 && blue <= 0.5 && red <= 0.23) {
+      return "BLUE";
+    }
+
+    else return "NONE";
+
+    /**
+     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
+     * sensor.
+     *
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("IR", IR);
+    SmartDashboard.putString("raw", Integer.toHexString(detectedColor.hashCode()));
+
+    */
+  }
+
+  
+ 
+
 }
