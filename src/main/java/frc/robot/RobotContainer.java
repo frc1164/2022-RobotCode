@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.driverConstants;
 import frc.robot.Constants.xBoxConstants;
 import frc.robot.commands.Drive;
-import frc.robot.commands.DashSpeed;
 
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -36,7 +35,6 @@ public class RobotContainer {
   public static Joystick m_DriverController;
 
   private final Drive m_Drive;
-  private final DashSpeed m_DashSpeed;
   private final Chassis m_Chassis;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -51,7 +49,6 @@ public class RobotContainer {
 
     //Define Commands
     m_Drive = new Drive(m_Chassis);
-    m_DashSpeed = new DashSpeed(m_Chassis);
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
@@ -66,7 +63,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_DashSpeed);
   }
 
   /**

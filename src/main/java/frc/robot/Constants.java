@@ -60,6 +60,8 @@ public final class Constants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
+        public static final double kEncoderDistancePerPulse = 0.11969;
+
 
         public static final DifferentialDriveKinematics kDriveKinematics = 
         new DifferentialDriveKinematics(kTrackwidthMeters);

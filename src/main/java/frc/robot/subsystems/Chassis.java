@@ -18,6 +18,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import frc.robot.Constants.characterizationConstants;
 import frc.robot.Constants.motorConstants;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -51,7 +52,7 @@ public class Chassis extends SubsystemBase {
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
-  }
+  
 
   /** Creates a new DriveSubsystem. */
   public Chassis() {
@@ -61,8 +62,8 @@ public class Chassis extends SubsystemBase {
     m_leftMotors.setInverted(true);
 
     // Sets the distance per pulse for the encoders
-    m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-    m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
+    m_leftEncoder.setPositionConversionFactor(characterizationConstants.kEncoderDistancePerPulse);
+    m_rightEncoder.setPositionConversionFactor(characterizationConstants.kEncoderDistancePerPulse);
 
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
