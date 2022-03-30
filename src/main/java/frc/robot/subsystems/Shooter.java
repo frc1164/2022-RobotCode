@@ -77,7 +77,7 @@ public class Shooter extends SubsystemBase {
 
   public static boolean liftInit() {
     if (botLimitSwitch.get()){
-      liftMot.set(0.1);
+      liftMot.set(0.6);
     }
     if (!botLimitSwitch.get()){
       liftMot.set(0.0);
