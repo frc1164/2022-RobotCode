@@ -30,6 +30,7 @@ import frc.robot.commands.InitCommands.LiftInit;
 //Subsystems imports
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -55,12 +56,14 @@ public class RobotContainer {
   private final Chassis m_Chassis;
   public static Shooter m_Shooter;
   private final Intake m_Intake;
+  private final Vision m_Vision;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //Subsystems init
     m_Chassis = new Chassis();
     m_Shooter = new Shooter();
+    m_Vision = new Vision();
     m_Intake = new Intake();
 
     //Controllers init

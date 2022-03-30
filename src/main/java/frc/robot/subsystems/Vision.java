@@ -90,7 +90,7 @@ public class Vision extends SubsystemBase {
 
   //Triangulates the distance from goal plane
   public static double triangulate(){
-    double distance = 66 / Math.tan(Math.toRadians(30 + get_lly())); 
+    double distance = 76 / Math.tan(Math.toRadians(27.2 + get_lly())); 
     return distance;
   }
 
