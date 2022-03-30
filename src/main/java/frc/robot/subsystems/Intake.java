@@ -5,25 +5,31 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.motorConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class Intake extends SubsystemBase {
   public CANSparkMax beatLift, beatRoll;
   public static VictorSPX conveyorMot;
+  private DigitalInput topLim, botLim;
   public Intake() {
     beatLift = new CANSparkMax(motorConstants.BEATER_LIFT, MotorType.kBrushless);
     beatRoll = new CANSparkMax(motorConstants.BEATER_ROLL, MotorType.kBrushless);
     conveyorMot = new VictorSPX(motorConstants.CONVEYOR);
 
-    beatLift.setIdleMode(IdleMode.kCoast);
+    beatLift.setIdleMode(IdleMode.kBrake);
     beatRoll.setIdleMode(IdleMode.kCoast);
+
+    topLim = new DigitalInput(4);
+    botLim = new DigitalInput(5);
 
 
     SmartDashboard.putNumber("Conveyor Motor Input", 0.0);
@@ -40,8 +46,32 @@ public class Intake extends SubsystemBase {
     beatRoll.set(speed);
   }
 
+  public void beaterLift (double speed) {
+    if (speed > 0.1){
+      if(topLim.get()){
+        beatLift.set(speed);
+      }
+      else {
+        beatLift.set(0.0);
+      }
+    }
+    else if (speed < -0.1) {
+      if (botLim.get()){
+         beatLift.set(speed);
+      }
+      else {
+        beatLift.set(0.0);
+      }
+    }
+    else {
+      beatLift.set(0.0);
+    }
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Beater top lim", topLim.get());
+    SmartDashboard.putBoolean("Beater bot lim", botLim.get());
+
   }
 }

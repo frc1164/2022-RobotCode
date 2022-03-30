@@ -32,11 +32,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     
     m_robotContainer = new RobotContainer();
-
-    LiftInit m_LiftInit = new LiftInit(m_robotContainer.m_Shooter);
-    m_LiftInit.schedule();
-
-
   }
 
   /**
@@ -79,6 +74,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    LiftInit m_LiftInit = new LiftInit(m_robotContainer.m_Shooter);
+    m_LiftInit.schedule();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

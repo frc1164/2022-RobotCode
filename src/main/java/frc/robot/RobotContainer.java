@@ -18,6 +18,7 @@ import frc.robot.Constants.xBoxConstants;
 //Commands imports
 import frc.robot.commands.Drive;
 import frc.robot.commands.ReadBall;
+import frc.robot.commands.RunBeaterLift;
 import frc.robot.commands.RunLift;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.RunFeeder;
@@ -49,6 +50,7 @@ public class RobotContainer {
   private final RunFeeder  m_RunFeeder;
   private final RunConveyor m_RunConveyor;
   private final RunIntake m_RunIntake;
+  private final RunBeaterLift m_RunBeaterLift;
 
   //Subsystem declares
   private final Chassis m_Chassis;
@@ -74,10 +76,12 @@ public class RobotContainer {
     m_RunFeeder = new RunFeeder();
     m_RunConveyor = new RunConveyor();
     m_RunIntake = new RunIntake(m_Intake);
+    m_RunBeaterLift = new RunBeaterLift(m_Intake);
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
     m_Shooter.setDefaultCommand(m_ReadBall);
+    m_Intake.setDefaultCommand(m_RunBeaterLift);
 
     configureButtonBindings();
   }
