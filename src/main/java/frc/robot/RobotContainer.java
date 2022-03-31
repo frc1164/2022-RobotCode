@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 //Constants imports
 import frc.robot.Constants.driverConstants;
 import frc.robot.Constants.xBoxConstants;
-import frc.robot.commands.angleClimb;
+import frc.robot.commands.AngleClimb;
 import frc.robot.commands.CenterDistance;
 import frc.robot.commands.CenterGoal;
 //Commands imports
@@ -33,7 +33,7 @@ import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunConveyor;
 import frc.robot.commands.InitCommands.LiftInit;
 import frc.robot.commands.runClimb;
-import frc.robot.commands.angleClimb;
+import frc.robot.commands.AngleClimb;
 import frc.robot.subsystems.Climber;
 
 //Subsystems imports
@@ -63,7 +63,7 @@ public class RobotContainer {
   private final RunConveyor m_RunConveyor;
   private final RunIntake m_RunIntake;
   private final RunBeaterLift m_RunBeaterLift;
-  private final angleClimb m_angleClimb;
+  private final AngleClimb m_angleClimb;
   private final CenterDistance m_CenterDistance;
   private final CenterGoal m_CenterGoal;
 
@@ -97,7 +97,7 @@ public class RobotContainer {
     m_RunConveyor = new RunConveyor();
     m_RunIntake = new RunIntake(m_Intake);
     m_RunBeaterLift = new RunBeaterLift(m_Intake);
-    m_angleClimb = new angleClimb(m_Climber);
+    m_angleClimb = new AngleClimb(m_Climber);
     m_CenterDistance = new CenterDistance();
     m_CenterGoal = new CenterGoal();
 
@@ -109,7 +109,7 @@ public class RobotContainer {
 
     //Set Default Commands
     //m_Chassis.setDefaultCommand(m_Drive);
-    m_Climber.setDefaultCommand(m_RunClimb);
+    m_Climber.setDefaultCommand(m_angleClimb);
 
     configureButtonBindings();
   }
