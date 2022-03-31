@@ -32,6 +32,9 @@ import frc.robot.commands.RunFeeder;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunConveyor;
 import frc.robot.commands.InitCommands.LiftInit;
+import frc.robot.commands.runClimb;
+import frc.robot.commands.angleClimb;
+import frc.robot.subsystems.Climber;
 
 //Subsystems imports
 import frc.robot.subsystems.Chassis;
@@ -65,11 +68,12 @@ public class RobotContainer {
   private final CenterGoal m_CenterGoal;
 
   //Subsystem declares
-  private final Chassis m_Chassis;
   public final Shooter m_Shooter;
   private final Intake m_Intake;
-  private final Climber m_Climber;
   private final Vision m_Vision;
+  private final runClimb m_RunClimb;
+  private final Chassis m_Chassis;
+  private final Climber m_Climber;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -101,6 +105,11 @@ public class RobotContainer {
     m_Chassis.setDefaultCommand(m_Drive);
     m_Shooter.setDefaultCommand(m_ReadBall);
     m_Intake.setDefaultCommand(m_RunBeaterLift);
+    m_RunClimb = new runClimb(m_Climber);
+
+    //Set Default Commands
+    //m_Chassis.setDefaultCommand(m_Drive);
+    m_Climber.setDefaultCommand(m_RunClimb);
 
     configureButtonBindings();
   }
