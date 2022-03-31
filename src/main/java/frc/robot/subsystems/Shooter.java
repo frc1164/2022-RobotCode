@@ -65,26 +65,26 @@ public class Shooter extends SubsystemBase {
 
     //Smartdashboard`
     //Declare PID contoller and values
-    private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
+    /*private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
     private NetworkTableEntry kP = tab.add("Line P", 0.8).getEntry();
     private NetworkTableEntry kI = tab.add("Line I", 0.016).getEntry();
     private NetworkTableEntry kD = tab.add("Line D", 0.8).getEntry();
     public static double P, I, D, dP, min_Command;
     public static double PIDout, steeringAdjust;
-    static PIDController testPID = new PIDController(P, I, D);
+    static PIDController testPID = new PIDController(P, I, D);*/
 
     //Lift limitswitches
     topLimitSwitch = new DigitalInput(limitSwitchConstants.TOP_LIMIT_SWITCH_PORT);
     botLimitSwitch = new DigitalInput(limitSwitchConstants.BOTTOM_LIMIT_SWITCH_PORT);
 
     //PID Init
-    PIDout = 0.0;
+    /*PIDout = 0.0;
     P = kP.getDouble(0.0);
     I = kI.getDouble(0.0);
     D = kD.getDouble(0.0);
     testPID.setPID(P, I, D);
     testPID.setSetpoint(0.0);
-    testPID.enableContinuousInput(5.0, 110.0);
+    testPID.enableContinuousInput(5.0, 110.0);*/
   }
 
   @Override
@@ -189,16 +189,16 @@ public class Shooter extends SubsystemBase {
   }
 
   public static double distanceToAngle () {
-
+    return 0.0;
   }
 
-  //PID controller for Centering
+  /*//PID controller for Centering
   public static double centerPIDout() {
     if (get_lltarget()) {
        return testPID.calculate(get_llx());
       }
       else {return 0.1;}
-  }
+  }*/
 
   
  

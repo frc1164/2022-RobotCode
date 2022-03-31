@@ -9,9 +9,9 @@ import frc.robot.RobotContainer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AngleClimb extends CommandBase {
+public class angleClimb extends CommandBase {
   Climber m_Climber;
-  public AngleClimb(Climber m_Climber) {
+  public angleClimb(Climber m_Climber) {
     this.m_Climber = m_Climber;
     addRequirements(m_Climber);
   }
