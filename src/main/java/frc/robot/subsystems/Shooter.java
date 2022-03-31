@@ -63,13 +63,28 @@ public class Shooter extends SubsystemBase {
     m_colorSensor = new ColorSensorV3(colorSensorConstants.i2cPort);
     m_colorMatcher = new ColorMatch();
 
-    //Smartdashboard
-    SmartDashboard.putNumber("Lift Motor Velocity Input", 0.0);
-    SmartDashboard.putNumber("Shooter Motor Velocity Input", shootEnc1.getVelocity());
+    //Smartdashboard`
+    //Declare PID contoller and values
+    private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
+    private NetworkTableEntry kP = tab.add("Line P", 0.8).getEntry();
+    private NetworkTableEntry kI = tab.add("Line I", 0.016).getEntry();
+    private NetworkTableEntry kD = tab.add("Line D", 0.8).getEntry();
+    public static double P, I, D, dP, min_Command;
+    public static double PIDout, steeringAdjust;
+    static PIDController testPID = new PIDController(P, I, D);
 
     //Lift limitswitches
     topLimitSwitch = new DigitalInput(limitSwitchConstants.TOP_LIMIT_SWITCH_PORT);
     botLimitSwitch = new DigitalInput(limitSwitchConstants.BOTTOM_LIMIT_SWITCH_PORT);
+
+    //PID Init
+    PIDout = 0.0;
+    P = kP.getDouble(0.0);
+    I = kI.getDouble(0.0);
+    D = kD.getDouble(0.0);
+    testPID.setPID(P, I, D);
+    testPID.setSetpoint(0.0);
+    testPID.enableContinuousInput(5.0, 110.0);
   }
 
   @Override
@@ -91,9 +106,6 @@ public class Shooter extends SubsystemBase {
     //Set Motor Speeds
     shootMot1.set(speed);
     shootMot2.set(speed);
-
-    SmartDashboard.putNumber("Motor 1 Velocity", shootEnc1.getVelocity());
-    SmartDashboard.putNumber("Motor 2 Velocity", shootEnc2.getVelocity());
   }
 
   public static boolean liftInit() {
@@ -174,6 +186,18 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putString("raw", Integer.toHexString(detectedColor.hashCode()));
 
     */
+  }
+
+  public static double distanceToAngle () {
+
+  }
+
+  //PID controller for Centering
+  public static double centerPIDout() {
+    if (get_lltarget()) {
+       return testPID.calculate(get_llx());
+      }
+      else {return 0.1;}
   }
 
   
