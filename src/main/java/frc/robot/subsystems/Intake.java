@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
 
   public void runIntake () {
     double speed = SmartDashboard.getNumber("Intake Motor Input", 0.0);
-    beatRoll.set(speed);
+    beatRoll.set(0.4);
   }
 
   public void beaterLift (double speed) {

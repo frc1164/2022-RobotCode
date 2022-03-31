@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.math.controller.PIDController;
 
 //REV imports
 import com.revrobotics.CANSparkMax;
@@ -32,6 +33,11 @@ public class Shooter extends SubsystemBase {
   public final ColorMatch m_colorMatcher;
   public static RelativeEncoder liftEnc;
   public static DigitalInput topLimitSwitch, botLimitSwitch;
+
+  //Shoot lift PID values
+  public static double P, I, D, dP, min_Command; 
+  public static double PIDout, steeringAdjust;
+  static PIDController testPID = new PIDController(P, I, D);
 
   public Shooter() {
     //Shooter Motors
@@ -92,8 +98,7 @@ public class Shooter extends SubsystemBase {
 
   public static boolean liftInit() {
     if (botLimitSwitch.get()){
-      liftMot.set(-0.1);
-      liftMot.set(0.6);
+      liftMot.set(0.2);;
     }
     if (!botLimitSwitch.get()){
       liftMot.set(0.0);
@@ -106,16 +111,16 @@ public class Shooter extends SubsystemBase {
   public static void runLift() {
     double speed = SmartDashboard.getNumber("Lift Motor Velocity Input", 0.0);
     if (speed > 0.0){
-      if(topLimitSwitch.get()){
-        liftMot.set(speed);
+      if(botLimitSwitch.get()){
+        liftMot.set(0.2);
       }
       else {
         liftMot.set(0.0);
       }
     }
     else if (speed < 0.0) {
-      if (botLimitSwitch.get()){
-         liftMot.set(speed);
+      if (topLimitSwitch.get()){
+         liftMot.set(0.2);
       }
       else {
         liftMot.set(0.0);

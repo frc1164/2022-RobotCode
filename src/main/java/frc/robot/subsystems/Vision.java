@@ -21,10 +21,10 @@ public class Vision extends SubsystemBase {
 
   //Declare PID contoller and values
   private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
-  private NetworkTableEntry kP = tab.add("Line P", 0.017).getEntry();
-  private NetworkTableEntry kI = tab.add("Line I", 0.006).getEntry();
-  private NetworkTableEntry kD = tab.add("Line D", 0.003).getEntry();
-  public static double P, I, D, dP, min_Command; 
+  private NetworkTableEntry kP = tab.add("Line P", 0.8).getEntry();
+  private NetworkTableEntry kI = tab.add("Line I", 0.016).getEntry();
+  private NetworkTableEntry kD = tab.add("Line D", 0.8).getEntry();
+  public static double P, I, D, dP, min_Command;
   public static double PIDout, steeringAdjust;
   static PIDController testPID = new PIDController(P, I, D);
   
@@ -108,7 +108,7 @@ public class Vision extends SubsystemBase {
     if (get_lltarget()) {
        return testPID.calculate(get_llx());
       }
-      else {return 0;}
+      else {return 0.1;}
   }
 
   //Distance PID controller

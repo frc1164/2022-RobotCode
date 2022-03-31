@@ -50,7 +50,7 @@ public final class Constants {
         public static final boolean CLIMB_INVERTED = false;
         public static final boolean SHOOTER_LIFT_INVERT = false;
 
-        public static final double FEEDER_MOTOR_SPEED = .45;
+        public static final double FEEDER_MOTOR_SPEED = 1;
     }
 
 
