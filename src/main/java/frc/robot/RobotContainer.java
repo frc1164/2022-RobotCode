@@ -6,6 +6,7 @@ package frc.robot;
 
 //WPI imports
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -16,6 +17,7 @@ import frc.robot.Constants.driverConstants;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 //Constants imports
+import frc.robot.Constants.driverConstants;
 import frc.robot.Constants.xBoxConstants;
 import frc.robot.commands.AngleClimb;
 import frc.robot.commands.CenterDistance;
@@ -116,12 +118,6 @@ public class RobotContainer {
     new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_CenterGoal);
     new JoystickButton(m_OperatorController, 5).whileHeld(m_RunLift);
     new JoystickButton(m_OperatorController, 6).whileHeld(m_RunFeeder);
-
-    
-
-
-
-
   }
 
   /**

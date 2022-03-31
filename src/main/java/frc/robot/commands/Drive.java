@@ -36,22 +36,7 @@ public class Drive extends CommandBase {
     turn = (Math.abs(turn) <= 0.1) ? 0 : turn;
     forward = (Math.abs(forward) <= 0.1) ? 0 : forward; 
 
-    //Final Speed
-    leftMSpeed = (forward - turn);
-    rightMSpeed = (forward + turn);
-
-    //Speed setting math
-    leftMSpeed = leftMSpeed + CenterDistance.distanceSpeed + CenterGoal.centerSpeed;
-    rightMSpeed = rightMSpeed + CenterDistance.distanceSpeed - CenterGoal.centerSpeed;
-
-    //Command call
-    SmartDashboard.putNumber("Driver L speed", leftMSpeed);
-    SmartDashboard.putNumber("Driver R speed", rightMSpeed);
-    SmartDashboard.putNumber("Turn", turn);
-    SmartDashboard.putNumber("forward", forward);
-    SmartDashboard.putNumber("Turn m", RobotContainer.m_DriverController.getRawAxis(driverConstants.Y_AXIS));
-    SmartDashboard.putNumber("forward m", RobotContainer.m_DriverController.getRawAxis(driverConstants.X_ROTATE));
-    m_Chassis.drive(leftMSpeed, rightMSpeed);
+    m_Chassis.arcadeDrive(forward, turn);
   }
 
   // Called once the command ends or is interrupted.
