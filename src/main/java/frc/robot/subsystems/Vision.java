@@ -21,9 +21,6 @@ public class Vision extends SubsystemBase {
 
   //Declare PID contoller and values
   private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
-  /*private NetworkTableEntry kP = 0.8;
-  private NetworkTableEntry kI = 0.016;
-  private NetworkTableEntry kD = 0.8;*/
   public static double P, I, D, dP, min_Command;
   public static double PIDout, steeringAdjust;
   static PIDController testPID = new PIDController(P, I, D);
@@ -44,9 +41,9 @@ public class Vision extends SubsystemBase {
 
     //PID Init
     PIDout = 0.0;
-    /*P = kP.getDouble(0.0);
-    I = kI.getDouble(0.0);
-    D = kD.getDouble(0.0);*/
+    P = 0.8;
+    I = 0.016;
+    D = 0.8;
     testPID.setPID(P, I, D);
     testPID.setSetpoint(0.0);
     testPID.enableContinuousInput(-29.8, 29.8);
@@ -90,7 +87,7 @@ public class Vision extends SubsystemBase {
 
   //Triangulates the distance from goal plane
   public static double triangulate(){
-    double distance = 76 / Math.tan(Math.toRadians(27.2 + get_lly())); 
+    double distance = 76 / Math.tan(Math.toRadians(29.6641 + get_lly())); 
     return distance;
   }
 

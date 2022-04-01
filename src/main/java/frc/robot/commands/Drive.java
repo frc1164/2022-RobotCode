@@ -36,6 +36,11 @@ public class Drive extends CommandBase {
     turn = (Math.abs(turn) <= 0.1) ? 0 : turn;
     forward = (Math.abs(forward) <= 0.1) ? 0 : forward; 
 
+    if (turn == 0 && forward == 0){
+      turn = turn + CenterGoal.centerSpeed;
+      forward = forward + CenterDistance.distanceSpeed;
+    }
+
     m_Chassis.arcadeDrive(forward, turn);
   }
 

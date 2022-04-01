@@ -3,17 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-//WPI imports
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-//Robot imports
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ReadBall extends CommandBase {
-  private final Shooter m_Shooter;
-  public ReadBall(Shooter m_Shooter) {
+public class AutoLift extends CommandBase {
+  Shooter m_Shooter;
+  public AutoLift(Shooter m_Shooter) {
     this.m_Shooter = m_Shooter;
     addRequirements(m_Shooter);
   }
@@ -25,12 +20,13 @@ public class ReadBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //SmartDashboard.putString("raw", m_Shooter.readBall());
+    Shooter.runLift(Shooter.liftPIDout());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Shooter.runLift(0.0);
   }
 
   // Returns true when the command should end.

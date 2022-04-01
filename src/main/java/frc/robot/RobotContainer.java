@@ -10,10 +10,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.Joystick;
 
 //Robot imports
-import frc.robot.Constants.driverConstants;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 //Constants imports
@@ -34,6 +32,7 @@ import frc.robot.commands.RunConveyor;
 import frc.robot.commands.InitCommands.LiftInit;
 import frc.robot.commands.runClimb;
 import frc.robot.commands.AngleClimb;
+import frc.robot.commands.AutoLift;
 import frc.robot.subsystems.Climber;
 
 //Subsystems imports
@@ -59,13 +58,15 @@ public class RobotContainer {
   private final Shoot m_Shoot;
   private final ReadBall m_ReadBall;
   private final RunLift m_RunLift;
-  private final RunFeeder  m_RunFeeder;
+  private final RunFeeder m_RunFeeder;
   private final RunConveyor m_RunConveyor;
   private final RunIntake m_RunIntake;
   private final RunBeaterLift m_RunBeaterLift;
   private final AngleClimb m_angleClimb;
   private final CenterDistance m_CenterDistance;
   private final CenterGoal m_CenterGoal;
+  private final AutoLift m_AutoLift;
+
 
   //Subsystem declares
   public final Shooter m_Shooter;
@@ -90,16 +91,17 @@ public class RobotContainer {
 
     //Commands init
     m_Drive = new Drive(m_Chassis);
-    m_Shoot = new Shoot(m_Shooter);
+    m_Shoot = new Shoot(m_Shooter, m_Intake);
     m_ReadBall = new ReadBall(m_Shooter);
     m_RunLift = new RunLift(m_Shooter);
-    m_RunFeeder = new RunFeeder();
+    m_RunFeeder = new RunFeeder(m_Shooter);
     m_RunConveyor = new RunConveyor();
     m_RunIntake = new RunIntake(m_Intake);
     m_RunBeaterLift = new RunBeaterLift(m_Intake);
     m_angleClimb = new AngleClimb(m_Climber);
     m_CenterDistance = new CenterDistance();
     m_CenterGoal = new CenterGoal();
+    m_AutoLift = new AutoLift(m_Shooter);
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
@@ -122,11 +124,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_OperatorController, xBoxConstants.B_BUTTON).whileHeld(m_Shoot);
-    new JoystickButton(m_OperatorController, xBoxConstants.Y_BUTTON).whileHeld(new ParallelCommandGroup(new Shoot(m_Shooter), 
-                                                                               new CenterGoal()));
+    new JoystickButton(m_OperatorController, xBoxConstants.Y_BUTTON).whileHeld(new ParallelCommandGroup(m_Shoot, 
+                                                                               m_CenterGoal));
     new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_CenterGoal);
     new JoystickButton(m_OperatorController, 5).whileHeld(m_RunLift);
-    new JoystickButton(m_OperatorController, 6).whileHeld(m_RunFeeder);
+    new JoystickButton(m_OperatorController, 6).whileHeld(m_AutoLift);
   }
 
   /**
