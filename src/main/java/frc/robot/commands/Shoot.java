@@ -27,11 +27,11 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (true){
-      m_Shooter.runShooter(m_Shooter.shootEquation());
+    if (m_Shooter.isBall()){
+      m_Shooter.runShooter(0.85);
     }
     else {
-      m_Shooter.runShooter(0.35);
+      m_Shooter.runShooter(0.85);
     }
     m_Shooter.runFeeder(motorConstants.FEEDER_MOTOR_SPEED);
   }

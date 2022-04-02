@@ -10,6 +10,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 //Robot imports
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -20,6 +24,7 @@ import frc.robot.Constants.xBoxConstants;
 import frc.robot.commands.AngleClimb;
 import frc.robot.commands.CenterDistance;
 import frc.robot.commands.CenterGoal;
+
 //Commands imports
 import frc.robot.commands.Drive;
 import frc.robot.commands.ReadBall;
@@ -30,10 +35,19 @@ import frc.robot.commands.RunFeeder;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunConveyor;
 import frc.robot.commands.InitCommands.LiftInit;
+import frc.robot.commands.InitCommands.ManualIntake;
 import frc.robot.commands.runClimb;
 import frc.robot.commands.AngleClimb;
 import frc.robot.commands.AutoLift;
+import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Climber;
+import frc.robot.commands.RunBeatUp;
+import frc.robot.commands.EndLift;
+import frc.robot.commands.InitCommands.ManualIntake;
+import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoDistance;
+import frc.robot.commands.AutoGoal;
+
 
 //Subsystems imports
 import frc.robot.subsystems.Chassis;
@@ -66,6 +80,11 @@ public class RobotContainer {
   private final CenterDistance m_CenterDistance;
   private final CenterGoal m_CenterGoal;
   private final AutoLift m_AutoLift;
+  private final RunBeatUp m_RunBeatUp;
+  private final ManualIntake m_ManualIntake;
+  private final AutoShoot m_AutoShoot;
+  private final AutoDistance m_AutoDistance;
+  private final AutoGoal m_AutoGoal;
 
 
   //Subsystem declares
@@ -102,16 +121,18 @@ public class RobotContainer {
     m_CenterDistance = new CenterDistance();
     m_CenterGoal = new CenterGoal();
     m_AutoLift = new AutoLift(m_Shooter);
+    m_RunClimb = new runClimb(m_Climber);
+    m_RunBeatUp = new RunBeatUp(m_Intake);
+    m_ManualIntake = new ManualIntake(m_Intake);
+    m_AutoShoot = new AutoShoot();
+    m_AutoGoal = new AutoGoal();
+    m_AutoDistance = new AutoDistance();
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
     m_Shooter.setDefaultCommand(m_ReadBall);
-    m_Intake.setDefaultCommand(m_RunBeaterLift);
-    m_RunClimb = new runClimb(m_Climber);
+    m_Intake.setDefaultCommand(m_ManualIntake);
 
-    //Set Default Commands
-    //m_Chassis.setDefaultCommand(m_Drive);
-    m_Climber.setDefaultCommand(m_angleClimb);
 
     configureButtonBindings();
   }
@@ -124,11 +145,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_OperatorController, xBoxConstants.B_BUTTON).whileHeld(m_Shoot);
-    new JoystickButton(m_OperatorController, xBoxConstants.Y_BUTTON).whileHeld(new ParallelCommandGroup(m_Shoot, 
-                                                                               m_CenterGoal));
-    new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(m_CenterGoal);
-    new JoystickButton(m_OperatorController, 5).whileHeld(m_RunLift);
-    new JoystickButton(m_OperatorController, 6).whileHeld(m_AutoLift);
+    new JoystickButton(m_OperatorController, xBoxConstants.A_BUTTON).whileHeld(new ParallelCommandGroup(m_CenterGoal, m_CenterDistance));
+    new JoystickButton(m_OperatorController, xBoxConstants.Y_BUTTON).whileHeld(m_RunIntake);
+    new JoystickButton(m_OperatorController, 8).whenPressed(m_RunBeaterLift);
+    new JoystickButton(m_OperatorController, 7).whenPressed(m_RunBeatUp);
+    //new JoystickButton(m_OperatorController, 5).whenPressed(m_angleClimb);
+    new JoystickButton(m_OperatorController, 6).whenPressed(m_RunClimb);
   }
 
   /**
@@ -137,7 +159,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
+   // Create a voltage constraint to ensure we don't accelerate too fast
+    return new SequentialCommandGroup(m_AutoGoal, m_AutoDistance, m_Shoot);
   }
 }

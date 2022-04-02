@@ -23,7 +23,7 @@ public class runClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Climber.runWinch(RobotContainer.m_OperatorController.getRawAxis(1)/4);
+    m_Climber.runWinch(RobotContainer.m_OperatorController.getRawAxis(1) * 0.75);
   }
 
   // Called once the command ends or is interrupted.

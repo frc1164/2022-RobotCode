@@ -4,39 +4,52 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Intake;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import frc.robot.Constants.characterizationConstants;
+import frc.robot.subsystems.Chassis;
 
-public class RunIntake extends CommandBase {
-  private Intake m_Intake;
-  public RunIntake(Intake m_Intake) {
-    this.m_Intake = m_Intake;
-    addRequirements(m_Intake);
+
+import frc.robot.subsystems.Vision;
+
+public class AutoDistance extends CommandBase {
+  private static double forward = 0.0;
+  private static double turn = 0.0;
+  private Chassis m_Chassis;
+  Timer m_Timer;
+  public AutoDistance(Chassis m_Chassis) {
+    this.m_Chassis = m_Chassis;
+    m_Timer = new Timer();
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_Timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Intake.runIntake();
-    m_Intake.runConveyor();
+    forward = Vision.distancePID();
+    turn = Vision.centerPIDout();
+    m_Chassis.arcadeDrive(forward, turn);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Intake.beatRoll.set(0.0);
-    m_Intake.conveyorMot.set(ControlMode.PercentOutput, 0.0);
+    m_Chassis.arcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_Timer.get() > 5){
+      return true;
+    }
     return false;
   }
 }

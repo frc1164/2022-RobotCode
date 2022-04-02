@@ -72,7 +72,6 @@ public class Shooter extends SubsystemBase {
 
     shootMot1.setInverted(motorConstants.SHOOTMOT1_INVERT);
     liftMot.setInverted(motorConstants.SHOOTER_LIFT_INVERT);
-    liftEnc.setInverted(motorConstants.SHOOTER_LIFT_INVERT);
 
     //Shooter Encoders
     shootEnc1 = shootMot1.getEncoder();
@@ -129,10 +128,10 @@ public class Shooter extends SubsystemBase {
 
   public static boolean liftInit() {
     if (botLimitSwitch.get()){
-      liftMot.set(0.2);;
+      liftMot.set(0.02);;
     }
     if (!botLimitSwitch.get()){
-      liftMot.set(0.0);
+      liftMot.set(0.02);
       liftEnc.setPosition(0);
       return true;
     }
@@ -167,7 +166,7 @@ public class Shooter extends SubsystemBase {
     shootMot2.set(0.0);
   }
 
-  /*public DriverStation.Alliance readBall () {
+  public DriverStation.Alliance readBall () {
     Color detectedColor = m_colorSensor.getColor();
 
 
@@ -203,7 +202,7 @@ public class Shooter extends SubsystemBase {
 
   public static double distanceToAngle () {
     return 0.0;
-  }*/
+  }
 
   //PID controller for lift
   public static double liftPIDout() {
@@ -217,7 +216,7 @@ public class Shooter extends SubsystemBase {
     MathUtil.clamp(tarAngle, 3.0 , 110.0);
     SmartDashboard.putNumber("TarAngle", tarAngle);
     if (Vision.get_lltarget()) {
-      return MathUtil.clamp(testPID.calculate(MathUtil.clamp(liftEnc.getPosition(), 0.0, 110.0),tarAngle), -0.1, 0.1);
+      return MathUtil.clamp(testPID.calculate(MathUtil.clamp(-liftEnc.getPosition(), 0.0, 110.0),tarAngle), -0.1, 0.1);
     }
     else {return 0.0;}
   }

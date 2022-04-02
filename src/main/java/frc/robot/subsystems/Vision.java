@@ -24,6 +24,7 @@ public class Vision extends SubsystemBase {
   public static double P, I, D, dP, min_Command;
   public static double PIDout, steeringAdjust;
   static PIDController testPID = new PIDController(P, I, D);
+  Number cameraMode = 1;
   
   public Vision() {
     //Sets up Lime Light Network Tables
@@ -38,6 +39,9 @@ public class Vision extends SubsystemBase {
 
     //calculated data
     td = SmartDashboard.getEntry("Distance from target");
+
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(1);
+    
 
     //PID Init
     PIDout = 0.0;
@@ -87,8 +91,13 @@ public class Vision extends SubsystemBase {
 
   //Triangulates the distance from goal plane
   public static double triangulate(){
+    if (get_lltarget() == true){
     double distance = 76 / Math.tan(Math.toRadians(29.6641 + get_lly())); 
     return distance;
+    }
+    else{
+      return 0;
+    }
   }
 
   //Displays LimeLight Values
@@ -112,7 +121,7 @@ public class Vision extends SubsystemBase {
   public static double distancePID() {
     double botDistance = td.getDouble(0.0);
     SmartDashboard.putNumber("Bot Distance", botDistance);
-    double distanceError = 84.0 - botDistance; 
+    double distanceError = 54.0 - botDistance; 
     SmartDashboard.putNumber("Distance Error", distanceError);
     if (distanceError > 5.0) {
       steeringAdjust = dP*distanceError - min_Command;

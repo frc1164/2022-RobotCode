@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.motorConstants;
@@ -19,7 +20,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 public class Intake extends SubsystemBase {
   public CANSparkMax beatLift, beatRoll;
   public static VictorSPX conveyorMot;
-  private DigitalInput topLim, botLim;
+  public DigitalInput topLim, botLim;
+  public boolean stop;
   public Intake() {
     beatLift = new CANSparkMax(motorConstants.BEATER_LIFT, MotorType.kBrushless);
     beatRoll = new CANSparkMax(motorConstants.BEATER_ROLL, MotorType.kBrushless);
@@ -31,8 +33,10 @@ public class Intake extends SubsystemBase {
     topLim = new DigitalInput(4);
     botLim = new DigitalInput(5);
 
+    stop = false;
 
-    SmartDashboard.putNumber("Conveyor Motor Input", 0.0);
+
+    SmartDashboard.putNumber("Conveyor Motor Input", 0.3);
     SmartDashboard.putNumber("Intake Motor Input", 0.0);
   }
 
@@ -46,27 +50,47 @@ public class Intake extends SubsystemBase {
     beatRoll.set(0.4);
   }
 
-  public void beaterLift (double speed) {
-    if (speed > 0.1){
-      if(topLim.get()){
-        beatLift.set(speed);
-      }
-      else {
-        beatLift.set(0.0);
-      }
+  public boolean beaterLift () {
+    System.out.println("Method start");
+    if (botLim.get()){
+      beatLift.set(0.15);
+      System.out.println("set motor speed");
     }
-    else if (speed < -0.1) {
-      if (botLim.get()){
-         beatLift.set(speed);
-      }
-      else {
-        beatLift.set(0.0);
-      }
-    }
-    else {
+    if (!botLim.get()){
       beatLift.set(0.0);
+      System.out.print("Bot Lim pressed");
+      return true;
     }
+    return false;
+    }
+  
+public boolean beaterUp () {
+  System.out.println("Method start");
+  if (topLim.get()){
+    beatLift.set(-0.15);
+    System.out.println("set motor speed");
   }
+  if (!topLim.get()){
+    beatLift.set(0.0);
+    System.out.print("Bot Lim pressed");
+    return true;
+  }
+  return false;
+}
+
+public void endLift (){
+  beatLift.set(0);
+}
+
+public void manualLift (double speed) {
+  if (speed > 0 && topLim.get()){
+    beatLift.set(speed);
+  }
+  if (speed < 0 && botLim.get()){
+    beatLift.set(speed);
+  }
+  else beatLift.set(0);
+}
 
   @Override
   public void periodic() {

@@ -17,11 +17,13 @@ import java.rmi.server.RMIFailureHandler;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants.characterizationConstants;
 import frc.robot.Constants.motorConstants;
 
+import com.ctre.phoenix.led.RgbFadeAnimation;
 import com.kauailabs.navx.frc.AHRS;
 
 public class Chassis extends SubsystemBase {
@@ -30,6 +32,9 @@ public class Chassis extends SubsystemBase {
   private CANSparkMax lbMot = new CANSparkMax(motorConstants.SPEED_CONT13, MotorType.kBrushless);
   private CANSparkMax rfMot = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
   private CANSparkMax rbMot = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
+
+  
+
 
   
 
@@ -62,10 +67,15 @@ public class Chassis extends SubsystemBase {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
+    lfMot.restoreFactoryDefaults(true);
+    lbMot.restoreFactoryDefaults(true);
+    rfMot.restoreFactoryDefaults(true);
+    rbMot.restoreFactoryDefaults(true);
     lfMot.setIdleMode(IdleMode.kCoast);
     lbMot.setIdleMode(IdleMode.kCoast);
     rfMot.setIdleMode(IdleMode.kCoast);
     rbMot.setIdleMode(IdleMode.kCoast);
+
 
     m_leftMotors.setInverted(true);
 

@@ -7,36 +7,37 @@ package frc.robot.commands;
 import frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import frc.robot.RobotContainer;
 
-public class RunIntake extends CommandBase {
-  private Intake m_Intake;
-  public RunIntake(Intake m_Intake) {
+public class RunBeatUp extends CommandBase {
+  Intake m_Intake;
+  boolean isStop;
+  public RunBeatUp(Intake m_Intake) {
     this.m_Intake = m_Intake;
     addRequirements(m_Intake);
-  }
+    }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    isStop = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Intake.runIntake();
-    m_Intake.runConveyor();
+    isStop = m_Intake.beaterUp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Intake.beatRoll.set(0.0);
-    m_Intake.conveyorMot.set(ControlMode.PercentOutput, 0.0);
+    m_Intake.beatLift.set(0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isStop;
   }
 }

@@ -4,39 +4,42 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Intake;
-
+import frc.robot.subsystems.Vision;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
-public class RunIntake extends CommandBase {
-  private Intake m_Intake;
-  public RunIntake(Intake m_Intake) {
-    this.m_Intake = m_Intake;
-    addRequirements(m_Intake);
+public class AutoGoal extends CommandBase {
+  /** Creates a new CenterGoal. */
+  Timer m_Timer;
+  public static double centerSpeed = 0.0;
+  public AutoGoal() {
+    m_Timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_Timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Intake.runIntake();
-    m_Intake.runConveyor();
+    centerSpeed = Vision.centerPIDout();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Intake.beatRoll.set(0.0);
-    m_Intake.conveyorMot.set(ControlMode.PercentOutput, 0.0);
+    centerSpeed = 0.0;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_Timer.get() > 5){
+      return true;
+    }
     return false;
   }
 }
