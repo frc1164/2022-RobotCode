@@ -39,14 +39,11 @@ import frc.robot.commands.InitCommands.ManualIntake;
 import frc.robot.commands.runClimb;
 import frc.robot.commands.AngleClimb;
 import frc.robot.commands.AutoLift;
-import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Climber;
 import frc.robot.commands.RunBeatUp;
 import frc.robot.commands.EndLift;
 import frc.robot.commands.InitCommands.ManualIntake;
-import frc.robot.commands.AutoShoot;
-import frc.robot.commands.AutoDistance;
-import frc.robot.commands.AutoGoal;
+
 
 
 //Subsystems imports
@@ -82,9 +79,7 @@ public class RobotContainer {
   private final AutoLift m_AutoLift;
   private final RunBeatUp m_RunBeatUp;
   private final ManualIntake m_ManualIntake;
-  private final AutoShoot m_AutoShoot;
-  private final AutoDistance m_AutoDistance;
-  private final AutoGoal m_AutoGoal;
+
 
 
   //Subsystem declares
@@ -124,9 +119,6 @@ public class RobotContainer {
     m_RunClimb = new runClimb(m_Climber);
     m_RunBeatUp = new RunBeatUp(m_Intake);
     m_ManualIntake = new ManualIntake(m_Intake);
-    m_AutoShoot = new AutoShoot();
-    m_AutoGoal = new AutoGoal();
-    m_AutoDistance = new AutoDistance();
 
     //Set Default Commands
     m_Chassis.setDefaultCommand(m_Drive);
@@ -160,6 +152,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
    // Create a voltage constraint to ensure we don't accelerate too fast
-    return new SequentialCommandGroup(m_AutoGoal, m_AutoDistance, m_Shoot);
+    return null;
   }
 }
