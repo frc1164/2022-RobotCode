@@ -31,7 +31,7 @@ public class Shoot extends CommandBase {
       m_Shooter.runShooter(0.85);
     }
     else {
-      m_Shooter.runShooter(0.85);
+      m_Shooter.runShooter(0.75);
     }
     m_Shooter.runFeeder(motorConstants.FEEDER_MOTOR_SPEED);
   }
