@@ -79,7 +79,7 @@ public final class Constants {
 
     public static final class driverConstants{
         public static final int DRIVER_PORT = 0;
-        public static final int X_AXIS = 0;
+        public static final int X_AXIS = 4;
         public static final int Y_AXIS = 1;
         public static final int Z_AXIS = 2;
         public static final int X_ROTATE = 3;
