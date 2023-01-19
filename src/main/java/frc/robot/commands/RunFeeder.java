@@ -11,8 +11,10 @@ import frc.robot.Constants.motorConstants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunFeeder extends CommandBase {
-  public RunFeeder() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  Shooter m_Shooter;
+  public RunFeeder(Shooter m_Shooter) {
+    this.m_Shooter = m_Shooter;
+    addRequirements(m_Shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -22,13 +24,13 @@ public class RunFeeder extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Shooter.runFeeder(motorConstants.FEEDER_MOTOR_SPEED);
+    m_Shooter.runFeeder(motorConstants.FEEDER_MOTOR_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Shooter.runFeeder(0.0);
+    m_Shooter.runFeeder(0.0);
   }
 
   // Returns true when the command should end.

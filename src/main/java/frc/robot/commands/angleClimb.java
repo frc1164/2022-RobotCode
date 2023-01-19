@@ -4,18 +4,16 @@
 
 package frc.robot.commands;
 
-//WPI imports
+import frc.robot.subsystems.Climber;
+import frc.robot.RobotContainer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//Robot imports
-import frc.robot.subsystems.Shooter;
-
-public class ReadBall extends CommandBase {
-  private final Shooter m_Shooter;
-  public ReadBall(Shooter m_Shooter) {
-    this.m_Shooter = m_Shooter;
-    addRequirements(m_Shooter);
+public class AngleClimb extends CommandBase {
+  Climber m_Climber;
+  public AngleClimb(Climber m_Climber) {
+    this.m_Climber = m_Climber;
+    addRequirements(m_Climber);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +23,12 @@ public class ReadBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //SmartDashboard.putString("raw", m_Shooter.readBall());
+    m_Climber.angleClimb(RobotContainer.m_OperatorController.getRawAxis(5)/4);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

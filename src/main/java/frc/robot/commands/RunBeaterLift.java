@@ -5,12 +5,13 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Intake;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunBeaterLift extends CommandBase {
-  Intake m_Intake;
+  private boolean isStop;
+  private Intake m_Intake;
   public RunBeaterLift(Intake m_Intake) {
     this.m_Intake = m_Intake;
     addRequirements(m_Intake);
@@ -18,21 +19,26 @@ public class RunBeaterLift extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    isStop = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //m_Intake.beaterLift(RobotContainer.m_OperatorController.getRawAxis(5)/4);
+    System.out.println("Execute Method");
+    isStop = m_Intake.beaterLift();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_Intake.beatLift.set(0.0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isStop;
   }
 }

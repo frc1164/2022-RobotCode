@@ -10,7 +10,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 //REV imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -24,6 +32,7 @@ import com.revrobotics.ColorMatch;
 import frc.robot.Constants.motorConstants;
 import frc.robot.Constants.colorSensorConstants;
 import frc.robot.Constants.limitSwitchConstants;
+import frc.robot.subsystems.Vision;
 
 public class Shooter extends SubsystemBase {
   public CANSparkMax shootMot1,shootMot2; 
@@ -35,9 +44,19 @@ public class Shooter extends SubsystemBase {
   public static DigitalInput topLimitSwitch, botLimitSwitch;
 
   //Shoot lift PID values
-  public static double P, I, D, dP, min_Command; 
+
+
+  //Declare PID contoller and values
+  private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
+  private NetworkTableEntry kP = tab.add("Line P", 0.8).getEntry();
+  private NetworkTableEntry kI = tab.add("Line I", 0.016).getEntry();
+  private NetworkTableEntry kD = tab.add("Line D", 0.8).getEntry();
+  public static double P, I, D, dP, min_Command;
   public static double PIDout, steeringAdjust;
   static PIDController testPID = new PIDController(P, I, D);
+
+  //Decalare driverstation
+  DriverStation ds;
 
   public Shooter() {
     //Shooter Motors
@@ -63,13 +82,20 @@ public class Shooter extends SubsystemBase {
     m_colorSensor = new ColorSensorV3(colorSensorConstants.i2cPort);
     m_colorMatcher = new ColorMatch();
 
-    //Smartdashboard
-    SmartDashboard.putNumber("Lift Motor Velocity Input", 0.0);
-    SmartDashboard.putNumber("Shooter Motor Velocity Input", shootEnc1.getVelocity());
+    //Driverstation
 
     //Lift limitswitches
     topLimitSwitch = new DigitalInput(limitSwitchConstants.TOP_LIMIT_SWITCH_PORT);
     botLimitSwitch = new DigitalInput(limitSwitchConstants.BOTTOM_LIMIT_SWITCH_PORT);
+
+    //PID Init
+    PIDout = 0.0;
+    P = kP.getDouble(0.0);
+    I = kI.getDouble(0.0);
+    D = kD.getDouble(0.0);
+    testPID.setPID(P, I, D);
+    testPID.setSetpoint(0.0);
+    testPID.enableContinuousInput(5.0, 110.0);
   }
 
   @Override
@@ -80,39 +106,43 @@ public class Shooter extends SubsystemBase {
 
   }
 
-  public static void runFeeder (double speed) {
+  public void runFeeder (double speed) {
     feederMot.set(speed);
   }
 
-  public void runShooter () {
-    //Get values from Smartdashboard
-    double speed = SmartDashboard.getNumber("Shooter Motor Velocity Input", 0.0);
-
+  public void runShooter (double speed) {
     //Set Motor Speeds
     shootMot1.set(speed);
     shootMot2.set(speed);
+  }
 
-    SmartDashboard.putNumber("Motor 1 Velocity", shootEnc1.getVelocity());
-    SmartDashboard.putNumber("Motor 2 Velocity", shootEnc2.getVelocity());
+  public double shootEquation () {
+    double X = Vision.triangulate();
+    return 0.000018717948718
+          - 0.000648310023310 * X
+          + 0.008542191142190 * Math.pow(X, 2)
+          - 0.051929778554770 * Math.pow(X, 3)
+          + 0.146411118881092 * Math.pow(X, 4)
+          + 0.645400000000031 * Math.pow(X, 5);
   }
 
   public static boolean liftInit() {
     if (botLimitSwitch.get()){
-      liftMot.set(0.2);;
+      liftMot.set(0.02);;
     }
     if (!botLimitSwitch.get()){
-      liftMot.set(0.0);
+      liftMot.set(0.02);
       liftEnc.setPosition(0);
       return true;
     }
     return false;
   }
 
-  public static void runLift() {
-    double speed = SmartDashboard.getNumber("Lift Motor Velocity Input", 0.0);
+  public static void runLift(double speed) {
+    speed = -speed;
     if (speed > 0.0){
       if(botLimitSwitch.get()){
-        liftMot.set(0.2);
+        liftMot.set(speed);
       }
       else {
         liftMot.set(0.0);
@@ -120,7 +150,7 @@ public class Shooter extends SubsystemBase {
     }
     else if (speed < 0.0) {
       if (topLimitSwitch.get()){
-         liftMot.set(0.2);
+         liftMot.set(speed);
       }
       else {
         liftMot.set(0.0);
@@ -129,7 +159,6 @@ public class Shooter extends SubsystemBase {
     else {
       liftMot.set(0.0);
     }
-    SmartDashboard.putNumber("Lift position", liftEnc.getPosition());
   }
 
   public void stopShooter () {
@@ -137,13 +166,11 @@ public class Shooter extends SubsystemBase {
     shootMot2.set(0.0);
   }
 
-  public String readBall () {
+  public DriverStation.Alliance readBall () {
     Color detectedColor = m_colorSensor.getColor();
 
 
-    /**
-     * The sensor returns a raw IR value of the infrared light detected.
-     */
+
     double IR = m_colorSensor.getIR();
     double red = detectedColor.red;
     double blue = detectedColor.blue;
@@ -154,26 +181,44 @@ public class Shooter extends SubsystemBase {
     else SmartDashboard.putBoolean("has_ball", false);
 
     if (red >= 0.4 && red <= 0.6 && blue <= 0.2) {
-      return "RED";
+      return DriverStation.Alliance.Red;
     }
 
     else if (blue >= 0.33 && blue <= 0.5 && red <= 0.23) {
-      return "BLUE";
+      return DriverStation.Alliance.Blue;
     }
 
-    else return "NONE";
+    else return null;
 
-    /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
-     *
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("IR", IR);
-    SmartDashboard.putString("raw", Integer.toHexString(detectedColor.hashCode()));
 
-    */
+  }
+
+  public boolean isBall () {
+    if (DriverStation.getAlliance() == readBall()){
+      return true;
+    }
+    else {return false;}
+  }
+
+  public static double distanceToAngle () {
+    return 0.0;
+  }
+
+  //PID controller for lift
+  public static double liftPIDout() {
+    double X = Vision.triangulate();
+    double tarAngle = -0.001923076923076 - 
+                      0.039335664335646 * X 
+                      - 0.333391608391340 * Math.pow(X, 2)
+                      + 3.076398601396759  * Math.pow(X, 3)
+                      - 9.942540792534867 * Math.pow(X, 4)
+                      + 38.545454545447484 * Math.pow(X, 5);
+    MathUtil.clamp(tarAngle, 3.0 , 110.0);
+    SmartDashboard.putNumber("TarAngle", tarAngle);
+    if (Vision.get_lltarget()) {
+      return MathUtil.clamp(testPID.calculate(MathUtil.clamp(-liftEnc.getPosition(), 0.0, 110.0),tarAngle), -0.1, 0.1);
+    }
+    else {return 0.0;}
   }
 
   

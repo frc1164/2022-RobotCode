@@ -4,38 +4,40 @@
 
 package frc.robot.commands;
 
-//WPI imports
+import frc.robot.subsystems.Intake;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotContainer;
 
-//Robot imports
-import frc.robot.subsystems.Shooter;
-
-public class ReadBall extends CommandBase {
-  private final Shooter m_Shooter;
-  public ReadBall(Shooter m_Shooter) {
-    this.m_Shooter = m_Shooter;
-    addRequirements(m_Shooter);
-  }
+public class RunBeatUp extends CommandBase {
+  Intake m_Intake;
+  boolean isStop;
+  public RunBeatUp(Intake m_Intake) {
+    this.m_Intake = m_Intake;
+    addRequirements(m_Intake);
+    }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    isStop = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //SmartDashboard.putString("raw", m_Shooter.readBall());
+    isStop = m_Intake.beaterUp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_Intake.beatLift.set(0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isStop;
   }
 }

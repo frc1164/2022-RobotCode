@@ -4,18 +4,16 @@
 
 package frc.robot.commands;
 
-//WPI imports
+import com.fasterxml.jackson.databind.util.BeanUtil;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Intake;
 
-//Robot imports
-import frc.robot.subsystems.Shooter;
-
-public class ReadBall extends CommandBase {
-  private final Shooter m_Shooter;
-  public ReadBall(Shooter m_Shooter) {
-    this.m_Shooter = m_Shooter;
-    addRequirements(m_Shooter);
+public class EndLift extends CommandBase {
+  Intake m_Intake;
+  public EndLift(Intake m_Intake) {
+    this.m_Intake = m_Intake;
+    addRequirements(m_Intake);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +23,12 @@ public class ReadBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //SmartDashboard.putString("raw", m_Shooter.readBall());
+    m_Intake.endLift();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
