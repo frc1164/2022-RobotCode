@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -48,9 +49,9 @@ public class Shooter extends SubsystemBase {
 
   //Declare PID contoller and values
   private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
-  private NetworkTableEntry kP = tab.add("Line P", 0.8).getEntry();
-  private NetworkTableEntry kI = tab.add("Line I", 0.016).getEntry();
-  private NetworkTableEntry kD = tab.add("Line D", 0.8).getEntry();
+  private GenericEntry kP = tab.add("Line P", 0.8).getEntry();
+  private GenericEntry kI = tab.add("Line I", 0.016).getEntry();
+  private GenericEntry kD = tab.add("Line D", 0.8).getEntry();
   public static double P, I, D, dP, min_Command;
   public static double PIDout, steeringAdjust;
   static PIDController testPID = new PIDController(P, I, D);
