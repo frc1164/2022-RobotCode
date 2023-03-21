@@ -22,7 +22,7 @@ public class CenterGoal extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    centerSpeed = Vision.centerPIDout();
+    // centerSpeed = Vision.centerPIDout(); 
   }
 
   // Called once the command ends or is interrupted.

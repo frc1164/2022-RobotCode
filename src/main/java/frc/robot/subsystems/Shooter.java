@@ -117,7 +117,7 @@ public class Shooter extends SubsystemBase {
     shootMot2.set(speed);
   }
 
-  public double shootEquation () {
+  /* public double shootEquation () {
     double X = Vision.triangulate();
     return 0.000018717948718
           - 0.000648310023310 * X
@@ -125,7 +125,7 @@ public class Shooter extends SubsystemBase {
           - 0.051929778554770 * Math.pow(X, 3)
           + 0.146411118881092 * Math.pow(X, 4)
           + 0.645400000000031 * Math.pow(X, 5);
-  }
+  } */
 
   public static boolean liftInit() {
     if (botLimitSwitch.get()){
@@ -206,7 +206,7 @@ public class Shooter extends SubsystemBase {
   }
 
   //PID controller for lift
-  public static double liftPIDout() {
+  /* public static double liftPIDout() {
     double X = Vision.triangulate();
     double tarAngle = -0.001923076923076 - 
                       0.039335664335646 * X 
@@ -220,7 +220,7 @@ public class Shooter extends SubsystemBase {
       return MathUtil.clamp(testPID.calculate(MathUtil.clamp(-liftEnc.getPosition(), 0.0, 110.0),tarAngle), -0.1, 0.1);
     }
     else {return 0.0;}
-  }
+  } */
 
   
  

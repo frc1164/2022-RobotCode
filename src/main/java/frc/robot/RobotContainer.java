@@ -87,7 +87,7 @@ public class RobotContainer {
   private final Intake m_Intake;
   private final Vision m_Vision;
   private final runClimb m_RunClimb;
-  private final Chassis m_Chassis;
+  public final Chassis m_Chassis;
   private final Climber m_Climber;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -95,7 +95,7 @@ public class RobotContainer {
     //Subsystems init
     m_Chassis = new Chassis();
     m_Shooter = new Shooter();
-    m_Vision = new Vision();
+    m_Vision = new Vision("Limelight");
     m_Intake = new Intake();
     m_Climber = new Climber();
 
