@@ -57,7 +57,7 @@ public class Chassis extends SubsystemBase {
   private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
 
   // Odometry class for tracking robot pose
-  private final DifferentialDrivePoseEstimator odometer = new DifferentialDrivePoseEstimator(null, m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), null);
+  private final DifferentialDrivePoseEstimator odometer = new DifferentialDrivePoseEstimator(characterizationConstants.kDriveKinematics, m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), null);
   
   private final Field2d m_field;
   

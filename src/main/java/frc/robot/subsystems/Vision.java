@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
+import frc.robot.Robot;
 
 public class Vision extends SubsystemBase {
 
@@ -106,21 +107,20 @@ public class Vision extends SubsystemBase {
         if (hasTargets() && isGoodTarget()) {
             // grab data off network tables and clean it up a bit
 
-            Pose2d currentPosition = m_Chassis.getPose();
+           // Pose2d currentPosition = m_Chassis.getPose(); Uncomment once odometry is rewritten
             Pose2d visionPose = getVisionEstimatedPose();
 
             // if the data is good, use it to update the pose estimator
-            if (visionPose.getX() != 0 && visionPose.getY() != 0 &&
+            // if (visionPose.getX() != 0 && visionPose.getY() != 0 &&
 
             // these check if vision is within a meter of our estimated pose otherwise we
             // ignore it
-                    Math.abs(currentPosition.getX() - visionPose.getX()) < 1 &&
-                    Math.abs(currentPosition.getY() - visionPose.getY()) < 1) {
+                 //   Math.abs(currentPosition.getX() - visionPose.getX()) < 1 &&    Uncomment once odometry is rewritten
+                 //   Math.abs(currentPosition.getY() - visionPose.getY()) < 1) {   Uncomment once odometry is rewritten
 
-                m_Chassis.odometer.addVisionMeasurement(visionPose, getLatency());
+              //  m_Chassis.odometer.addVisionMeasurement(visionPose, getLatency()); Uncomment once odometry is rewritten
 
                 
             }
         }
     }
-}
