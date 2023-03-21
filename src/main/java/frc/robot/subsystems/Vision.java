@@ -1,144 +1,126 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.util.LinkedList;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 
 public class Vision extends SubsystemBase {
-  public static NetworkTable table, distTable;
-  public static NetworkTableEntry tx, ty, ta, tv, td;
-  LinkedList<Double> LLvalues = new LinkedList<Double>();
 
-  //Declare PID contoller and values
-  private ShuffleboardTab tab = Shuffleboard.getTab("PID LL Settings");
-  public static double P, I, D, dP, min_Command;
-  public static double PIDout, steeringAdjust;
-  static PIDController testPID = new PIDController(P, I, D);
-  Number cameraMode = 1;
-  
-  public Vision() {
-    //Sets up Lime Light Network Tables
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    distTable = NetworkTableInstance.getDefault().getTable("Smartdashboard");
+    NetworkTable LimelightTable;
+    String limelightName;
+    double tv;
+    double ta;
+    double tl;
 
-    //limelight data
-    tx = table.getEntry("tx");
-    ty = table.getEntry("ty");
-    ta = table.getEntry("ta");
-    tv = table.getEntry("tv");
+    LimelightHelpers.LimelightResults results;
 
-    //calculated data
-    td = SmartDashboard.getEntry("Distance from target");
+    public Vision(String limelightName) {
+        this.limelightName = limelightName;
 
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(1);
-    
+        LimelightTable = NetworkTableInstance.getDefault().getTable(limelightName);
 
-    //PID Init
-    PIDout = 0.0;
-    P = 0.8;
-    I = 0.016;
-    D = 0.8;
-    testPID.setPID(P, I, D);
-    testPID.setSetpoint(0.0);
-    testPID.enableContinuousInput(-29.8, 29.8);
-
-    //Distance PID Init
-    dP = 0.01;
-    min_Command = 0.025;
-    steeringAdjust = 0.0;
-  }
-
-  //Method for LimeLight valid target
-  public static boolean get_lltarget() {
-    double LLt = tv.getDouble(0.0);
-    
-    if (LLt == 1) {
-      return true;
+        LimelightOn(false);
     }
 
-    else {
-      return false;
+    public boolean LimelightOn(boolean on) {
+        if (on) {
+            LimelightTable.getEntry("ledMode").setNumber(3);
+            return true;
+        } else {
+            LimelightTable.getEntry("ledMode").setNumber(1);
+            return false;
+        }
     }
-  }
 
-  //Method for LimeLight x_axis
-  public static double get_llx() {
-    double LLx = tx.getDouble(0.0);
-    return LLx;
-  }
+    public void updateValues() {
 
-  //Method for LimeLight y_axis
-  public static double get_lly() {
-    double LLy = ty.getDouble(0.0);
-    return LLy;
-  }
+        //TODO: Maybe switch these to use the limelight helper sub
+        tv = LimelightTable.getEntry("tv").getDouble(0);
+        ta = LimelightTable.getEntry("ta").getDouble(0);
+        tl = LimelightTable.getEntry("tl").getDouble(40);
 
-  //Method for LimeLight area
-  public static double get_llarea() {
-    double LLarea = ta.getDouble(0.0);
-    return LLarea;
-  }
+        results = LimelightHelpers.getLatestResults(limelightName);
 
-  //Triangulates the distance from goal plane
-  public static double triangulate(){
-    if (get_lltarget() == true){
-    double distance = 76 / Math.tan(Math.toRadians(29.6641 + get_lly())); 
-    return distance;
     }
-    else{
-      return 0;
+
+    public boolean isGoodTarget() {
+        return ta >= 0.5  || results.targetingResults.targets_Fiducials.length > 1 && ta>0.4;
     }
-  }
 
-  //Displays LimeLight Values
-  public void printLLvalues() {
-    SmartDashboard.putBoolean("Object Detected", get_lltarget());
-    SmartDashboard.putNumber("LimelightX", get_llx());
-    SmartDashboard.putNumber("LimelightY", get_lly());
-    SmartDashboard.putNumber("LimelightArea", get_llarea());
-    SmartDashboard.putNumber("Distance from target", triangulate());
-  }
-
-  //PID controller for Centering
-  public static double centerPIDout() {
-    if (get_lltarget()) {
-       return testPID.calculate(get_llx());
-      }
-      else {return 0.1;}
-  }
-
-  //Distance PID controller
-  public static double distancePID() {
-    double botDistance = td.getDouble(0.0);
-    SmartDashboard.putNumber("Bot Distance", botDistance);
-    double distanceError = 54.0 - botDistance; 
-    SmartDashboard.putNumber("Distance Error", distanceError);
-    if (distanceError > 5.0) {
-      steeringAdjust = dP*distanceError - min_Command;
+    public boolean hasTargets() {
+        return tv == 1;
     }
-    if (distanceError < -5.0) {
-      steeringAdjust = dP*distanceError + min_Command;
-    }
-    if (distanceError >= -5.0 && distanceError <= 5.0){
-      steeringAdjust = 0.0;
-    }
-    SmartDashboard.putNumber("Steering Adjust", steeringAdjust);
-    return steeringAdjust;
-  }
+
+    public Pose2d getVisionEstimatedPose() {
+
+        double[] bot_pose;
+
+        if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
+            bot_pose = LimelightTable
+                    .getEntry("botpose_wpiblue")
+                    .getDoubleArray(new double[1]);
+        } else {
+            bot_pose = LimelightTable
+                    .getEntry("botpose_wpired")
+                    .getDoubleArray(new double[1]);
+        }
+
+        double bot_x = bot_pose[0];
+        double bot_y = bot_pose[1];
+        double rotation_z = (bot_pose[5] + 360) % 360;
 
 
-  @Override
-  public void periodic() {
-    printLLvalues();
-  }
+        return new Pose2d(
+                new Translation2d(bot_x, bot_y),
+                Rotation2d.fromDegrees(rotation_z));
+    }
+
+    public double getLatency() {
+        return Timer.getFPGATimestamp() - Units.millisecondsToSeconds(tl);
+
+        // maybe need camera_latency?
+        // TODO: TEST 
+        // return results.targetingResults.latency_capture;
+
+        // TODO: TEST this breaks it for some reason
+        // return llresults.targetingResults.latency_pipeline; 
+    }
+
+    @Override
+    public void periodic() {
+
+        
+        updateValues();
+
+        SmartDashboard.putBoolean("Vision Identified Tag", hasTargets());
+
+        // if the limelight has a target
+        if (hasTargets() && isGoodTarget()) {
+            // grab data off network tables and clean it up a bit
+
+            Pose2d currentPosition = m_Chassis.getPose();
+            Pose2d visionPose = getVisionEstimatedPose();
+
+            // if the data is good, use it to update the pose estimator
+            if (visionPose.getX() != 0 && visionPose.getY() != 0 &&
+
+            // these check if vision is within a meter of our estimated pose otherwise we
+            // ignore it
+                    Math.abs(currentPosition.getX() - visionPose.getX()) < 1 &&
+                    Math.abs(currentPosition.getY() - visionPose.getY()) < 1) {
+
+                m_Chassis.odometer.addVisionMeasurement(visionPose, getLatency());
+
+                
+            }
+        }
+    }
 }

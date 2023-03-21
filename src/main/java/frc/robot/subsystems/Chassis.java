@@ -1,14 +1,18 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SerialPort;
 
@@ -33,12 +37,6 @@ public class Chassis extends SubsystemBase {
   private CANSparkMax rfMot = new CANSparkMax(motorConstants.SPEED_CONT14, MotorType.kBrushless);
   private CANSparkMax rbMot = new CANSparkMax(motorConstants.SPEED_CONT15, MotorType.kBrushless);
 
-  
-
-
-  
-
-
   // The motors on the left side of the drive.
   private final MotorControllerGroup m_leftMotors =
       new MotorControllerGroup(lfMot, lbMot);
@@ -59,11 +57,15 @@ public class Chassis extends SubsystemBase {
   private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
 
   // Odometry class for tracking robot pose
-  private final DifferentialDriveOdometry m_odometry;
+  private final DifferentialDrivePoseEstimator odometer = new DifferentialDrivePoseEstimator(null, m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), null);
   
-
+  private final Field2d m_field;
+  
   /** Creates a new DriveSubsystem. */
   public Chassis() {
+
+    m_field = new Field2d();
+
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
@@ -84,15 +86,7 @@ public class Chassis extends SubsystemBase {
     m_rightEncoder.setPositionConversionFactor(characterizationConstants.kEncoderDistancePerPulse);
 
     resetEncoders();
-    m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
   
-  }
-
-  @Override
-  public void periodic() {
-    // Update the odometry in the periodic block
-    m_odometry.update(
-        m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
   }
 
   /**
@@ -101,7 +95,7 @@ public class Chassis extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return odometer.getEstimatedPosition();
   }
 
   /**
@@ -120,7 +114,7 @@ public class Chassis extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), pose);
+    odometer.resetPosition(m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), pose);
   }
 
   /**
@@ -208,5 +202,16 @@ public class Chassis extends SubsystemBase {
    */
   public double getTurnRate() {
     return -m_gyro.getRate();
+  }
+
+@Override
+  public void periodic() {
+    // Update the odometry in the periodic block
+    odometer.update(
+        m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
+    
+    SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
+    m_field.setRobotPose(this.getPose());
+    SmartDashboard.putData(m_field);
   }
 }
