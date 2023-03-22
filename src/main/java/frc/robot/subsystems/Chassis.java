@@ -24,6 +24,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 
+import frc.robot.RobotOdometry;
 import frc.robot.Constants.characterizationConstants;
 import frc.robot.Constants.motorConstants;
 
@@ -57,8 +58,8 @@ public class Chassis extends SubsystemBase {
   private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
 
   // Odometry class for tracking robot pose
-  private final DifferentialDrivePoseEstimator odometer = new DifferentialDrivePoseEstimator(characterizationConstants.kDriveKinematics, m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), null);
-  
+  RobotOdometry odometer = RobotOdometry.getInstance();
+
   private final Field2d m_field;
   
   /** Creates a new DriveSubsystem. */
@@ -95,7 +96,8 @@ public class Chassis extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return odometer.getEstimatedPosition();
+    // return odometer.getEstimatedPosition();
+    return odometer.getPoseEstimator().getEstimatedPosition();
   }
 
   /**
@@ -114,7 +116,7 @@ public class Chassis extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    odometer.resetPosition(m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), pose);
+    odometer.getPoseEstimator().resetPosition(m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition(), pose);
   }
 
   /**
@@ -207,7 +209,7 @@ public class Chassis extends SubsystemBase {
 @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    odometer.update(
+    odometer.getPoseEstimator().update(
         m_gyro.getRotation2d(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
     
     SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
