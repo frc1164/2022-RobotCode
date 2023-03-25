@@ -1,0 +1,31 @@
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.swerverobot.RobotMap;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.LEDs;
+
+
+private AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(ledCount());
+private AddressableLED m_led = new AddressableLED(LEDPWMPort);
+
+public LED() {
+  
+}
+
+private void rainbow(int startPos, int Length, double rainbowOffset, double hueModdifier) {
+    // if (startPos + Length < m_ledBuffer.getLength()) {
+      for (var i = startPos; i < startPos + Length; i++) {
+        final int hue = (int) (((((rainbowOffset + i) * 180) / Length) + hueModdifier) % 180);
+        m_ledBuffer.setHSV(i, (hue), 255, 128);
+      }
+    }
+
+public void init() {
+  m_led.setLength(m_ledBuffer.getLength());
+  m_led.start();
+} 
+
+      

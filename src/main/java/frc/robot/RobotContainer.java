@@ -52,6 +52,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.LEDs;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -89,6 +90,7 @@ public class RobotContainer {
   private final runClimb m_RunClimb;
   private final Chassis m_Chassis;
   private final Climber m_Climber;
+  private final LEDs m_LEDs;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -98,6 +100,7 @@ public class RobotContainer {
     m_Vision = new Vision();
     m_Intake = new Intake();
     m_Climber = new Climber();
+    m_LEDs = new LEDs();
 
     //Controllers init
     m_OperatorController = new XboxController(xBoxConstants.OPERATOR_PORT);
@@ -125,6 +128,7 @@ public class RobotContainer {
     m_Shooter.setDefaultCommand(m_ReadBall);
     m_Intake.setDefaultCommand(m_ManualIntake);
 
+    m_LEDs.init();
 
     configureButtonBindings();
   }
