@@ -89,6 +89,10 @@ public final class Constants {
         public static final I2C.Port i2cPort = I2C.Port.kOnboard;
     }
     
+    public static final class LEDConstants{
+        public static int LEDport = 0;
+    }
+    
     public static final class characterizationConstants {
         public static final double ksVolts = 0.17931;
         public static final double kvVoltSecondsPerMeter = 1.3291;
