@@ -30,6 +30,7 @@ private AddressableLED m_led = new AddressableLED(LEDConstants.LEDport);
 
   public void LED_init() {
     m_led.setLength(m_ledBuffer.getLength());
+    m_led.setData(m_ledBuffer);
     m_led.start();
   } 
 

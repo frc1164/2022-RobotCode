@@ -90,7 +90,7 @@ public class RobotContainer {
   private final runClimb m_RunClimb;
   private final Chassis m_Chassis;
   private final Climber m_Climber;
-  private final LED m_LEDs;
+  private final LED m_LED;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -100,7 +100,7 @@ public class RobotContainer {
     m_Vision = new Vision();
     m_Intake = new Intake();
     m_Climber = new Climber();
-    m_LEDs = new LED();
+    m_LED = new LED();
 
     //Controllers init
     m_OperatorController = new XboxController(xBoxConstants.OPERATOR_PORT);
